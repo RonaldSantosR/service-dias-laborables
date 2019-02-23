@@ -1,7 +1,13 @@
 package com.udemy.model;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Column;
-
+import javax.persistence.Entity;
+import javax.persistence.Table;
+@Entity
+@Table(name="users")
+@Access(AccessType.FIELD)
 public class user extends ParentEntity {
 
 	private static final long serialVersionUID = 970516850209393157L;
