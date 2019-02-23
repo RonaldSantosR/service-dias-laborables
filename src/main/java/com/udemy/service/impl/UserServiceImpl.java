@@ -25,5 +25,10 @@ public class UserServiceImpl implements UserService {
 	public List<user> findAll() {
 		return this.userjparepository.findAll();
 	}
+
+	@Override
+	public void deleteUser(long id) {
+		this.userjparepository.deleteById(id);
+	}
 }
 	
