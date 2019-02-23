@@ -1,9 +1,11 @@
 package com.udemy.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +15,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.udemy.model.user;
 import com.udemy.service.UserService;
+import com.udemy.util.QueryResult;
 import com.udemy.util.RestResponse;
 @RestController
 public class UserController {
@@ -32,6 +35,12 @@ public class UserController {
 		this.userservice.save(user);
 		return new RestResponse(HttpStatus.OK.value(),"Operacion Exitosa");
 	}
+	
+	@GetMapping("/getUsers")
+	public List<user> getUsers(){
+		return this.userservice.findAll();
+	}
+	
 	
 	private boolean validate(user user) {
 		boolean isvaled=true;
