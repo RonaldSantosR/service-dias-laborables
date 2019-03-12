@@ -7,8 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BackendninjaApplication {
 	
 	public static void main(String[] args) {
-		
-		SpringApplication.run(BackendninjaApplication.class, args);
+			SpringApplication.run(BackendninjaApplication.class, args);
+
 	}
 
 }

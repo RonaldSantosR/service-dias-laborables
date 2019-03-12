@@ -10,8 +10,8 @@ public class examplecomponent {
 	
 	public static final Log LOG = LogFactory.getLog(examplecomponent.class);
 	
-	public void sayhello() {
-		LOG.info("HELLO FROM EXAMPLECOMPONENT");
+	public void saycontroler() {
+		LOG.info("controler");
 	}
-	
+
 }
