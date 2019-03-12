@@ -29,10 +29,10 @@ public class FeriadoController {
 	private FeriadoPermanenteService feriadopermanentes;
 	
 	@Autowired
-	private IAmbitoService ambitoservice;
+	private IAmbitoService ambitoservice; 
 	
 	
-	@PostMapping("/{id}/feriadospermanentes")
+	@PostMapping("/{id}/feriadospermanentess")
 	public RestResponse guardarferiadopermanente(@RequestBody FeriadoPermanente feriadopermanente,@PathVariable Long id) {
  
 		try{
