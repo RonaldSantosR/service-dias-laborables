@@ -30,22 +30,13 @@ INSERT [dbo].[Dia_Hora] ([inicio],[fin],[dia_id],[Ambito_id],[activo]) VALUES ('
 INSERT [dbo].[Dia_Hora] ([inicio],[fin],[dia_id],[Ambito_id],[activo]) VALUES ('08:00:00.000','17:00:00.000',6,2,1)
 INSERT [dbo].[Dia_Hora] ([inicio],[fin],[dia_id],[Ambito_id],[activo]) VALUES ('08:00:00.000','17:00:00.000',7,2,1)
 
-INSERT INTO [dbo].[Feriado] ([fecha],[Ambito_id]) VALUES ('10-02-2020',1)
-INSERT INTO [dbo].[Feriado] ([fecha],[Ambito_id]) VALUES ('28-02-1970',1)
+INSERT INTO [dbo].[Feriado] ([fecha],[Ambito_id],[nombre],[periodo]) VALUES ('10-02-2020',1,'navidad',0)
+INSERT INTO [dbo].[Feriado] ([fecha],[Ambito_id],[nombre],[periodo]) VALUES ('28-02-1970',1,'pascuas',1)
 
-INSERT INTO [dbo].[Feriado] ([fecha],[Ambito_id]) VALUES ('10-02-2019',2)
-INSERT INTO [dbo].[Feriado] ([fecha],[Ambito_id]) VALUES ('05-02-1970',2)
+INSERT INTO [dbo].[Feriado] ([fecha],[Ambito_id],[nombre],[periodo]) VALUES ('10-02-2019',2,'san valentin',0)
+INSERT INTO [dbo].[Feriado] ([fecha],[Ambito_id],[nombre],[periodo]) VALUES ('05-02-1970',2,'año nuevo',1)
 
-INSERT INTO [dbo].[Feriado] ([fecha],[Ambito_id]) VALUES ('12-02-1970',1)
-INSERT INTO [dbo].[Feriado] ([fecha],[Ambito_id]) VALUES ('19-02-2019',1)
+INSERT INTO [dbo].[Feriado] ([fecha],[Ambito_id],[nombre],[periodo]) VALUES ('12-02-1970',1,'combate',1)
+INSERT INTO [dbo].[Feriado] ([fecha],[Ambito_id],[nombre],[periodo]) VALUES ('19-02-2019',1,'halloween',0)
 
 
-
-INSERT INTO [dbo].[Feriado_año]([asunto],[nombre],[Feriado_id]) VALUES ('TERREMOTO','DIA DE LA PAZ',1)
-INSERT INTO [dbo].[Feriado_año]([asunto],[nombre],[Feriado_id]) VALUES ('DIA DE LA TIERRA','DIA MUNDIAL',3) 
-
-INSERT INTO [dbo].[Feriado_permanente]([nombre],[Feriado_id]) VALUES ('DIA DEL NIÑO',2)
-INSERT INTO [dbo].[Feriado_permanente]([nombre],[Feriado_id]) VALUES ('DIA DE LA AMISTAD',4) 
-
-INSERT INTO [dbo].[Feriado_permanente]([nombre],[Feriado_id]) VALUES ('DIA DEL AMOR',5) 
-INSERT INTO [dbo].[Feriado_año]([asunto],[nombre],[Feriado_id]) VALUES ('DIA DE LA TIERRA','DIA MUNDIAL',6) 

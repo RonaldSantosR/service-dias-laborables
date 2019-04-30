@@ -30,14 +30,9 @@ import org.springframework.stereotype.Service;
 import com.udemy.controller.AmbitoController;
 import com.udemy.entity.Ambito;
 import com.udemy.entity.Feriado;
-import com.udemy.entity.FeriadoAño;
-import com.udemy.entity.FeriadoPermanente;
+import com.udemy.model.modelFeriado;
 import com.udemy.model.modelFeriadolistar;
-import com.udemy.model.modelferiadoaño;
-import com.udemy.model.modelferiadopermanente;
 import com.udemy.repository.AmbitoRepository;
-import com.udemy.repository.FeriadoARepository;
-import com.udemy.repository.FeriadoPRepository;
 import com.udemy.repository.FeriadoRepository;
 import com.udemy.service.interfaces.IFeriadoSer;
 
@@ -49,12 +44,7 @@ public class FeriadoService implements IFeriadoSer {
 	
 	@Autowired
 	private FeriadoRepository feriadorepo;
-
-	@Autowired
-	private FeriadoPRepository feriadoprepo;
-
-	@Autowired
-	private FeriadoARepository feriadoarepo;	
+	
 	
 	@Autowired
 	private AmbitoRepository ambitorepo;
@@ -79,8 +69,8 @@ public class FeriadoService implements IFeriadoSer {
 		
 	}
 	
-	public modelferiadopermanente converterferiados(FeriadoPermanente feriados){
-		modelferiadopermanente modelferiados=new modelferiadopermanente();
+	public modelFeriado converterferiados(Feriado feriados){
+		modelFeriado modelferiados=new modelFeriado();
 		SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd-MM");
 
 		modelferiados.setId(feriados.getId());
@@ -89,8 +79,8 @@ public class FeriadoService implements IFeriadoSer {
 		return 	modelferiados;
 	}
 	
-	public FeriadoPermanente converterferiadosentity(modelferiadopermanente feriados) throws ParseException{
-		FeriadoPermanente modelferiados=new FeriadoPermanente();
+	public Feriado converterferiadosentity(modelFeriado feriados) throws ParseException{
+		Feriado modelferiados=new Feriado();
 		SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd-MM-yyyy");
 
 		modelferiados.setId(feriados.getId());
@@ -104,46 +94,44 @@ public class FeriadoService implements IFeriadoSer {
 	
 	
 	
-	public List<modelferiadopermanente> quitaraño(Long id){
-		Iterable<FeriadoPermanente> feriadospermanentes = feriadoprepo.findAllByAmbitoid(id);
+	public List<modelFeriado> quitaraño(Long id){
+		Iterable<Feriado> feriadospermanentes = feriadorepo.findAllByAmbitoid(id);
 		List<Date> dates2 = new ArrayList<>();
-		List<modelferiadopermanente> modelferiadospermentes = new ArrayList<>();
+		List<modelFeriado> modelferiadospermentes = new ArrayList<>();
 
-		for(FeriadoPermanente feriadop  :feriadospermanentes) {
-			modelferiadopermanente model = converterferiados(feriadop); 
+		for(Feriado feriadop  :feriadospermanentes) {
+			modelFeriado model = converterferiados(feriadop); 
 			modelferiadospermentes.add(model);
 		}
 		
 		return modelferiadospermentes;
 	}
 	
-	public List<FeriadoAño> listarferiadosaños(Long id,Date fecha1,Date fecha2){
-		Iterable <FeriadoAño> feriadoaño = feriadoarepo.findAllByAmbitoid(id,fecha1,fecha2);
-		List<FeriadoAño> Feriadoaños = new ArrayList<>();
-		for(FeriadoAño años : feriadoaño ) {
+	public List<Feriado> listarferiadosaños(Long id,Date fecha1,Date fecha2){
+		Iterable <Feriado> feriadoaño = feriadorepo.findAllByAmbitoid(id,fecha1,fecha2);
+		List<Feriado> Feriadoaños = new ArrayList<>();
+		for(Feriado años : feriadoaño ) {
 			Feriadoaños.add(años);
 		}
 		return Feriadoaños;
 	}
 	
 	
-	public modelferiadoaño listarferiadoo(FeriadoAño feriado) {
-		modelferiadoaño f =new modelferiadoaño();
+	public modelFeriado listarferiadoo(Feriado feriado) {
+		modelFeriado f =new modelFeriado();
 		SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd-MM-yyyy");
 		f.setId(feriado.getId());
 		f.setNombre(feriado.getNombre());
 		f.setFecha(formatoDelTexto.format(feriado.getFecha()));
-		f.setAsunto(feriado.getAsunto());
 		return f;
 	}
 	
-	public FeriadoAño listarferiadoFeriado(modelferiadoaño feriado) throws ParseException {
-		FeriadoAño f =new FeriadoAño();
+	public Feriado listarferiadoFeriado(modelFeriado feriado) throws ParseException {
+		Feriado f =new Feriado();
 		SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd-MM-yyyy");
 		f.setId(feriado.getId());
 		f.setNombre(feriado.getNombre());
 		f.setFecha(formatoDelTexto.parse(feriado.getFecha()));
-		f.setAsunto(feriado.getAsunto());
 		Logger.info("ENTROOOOOO " +f.getFecha()+"assddasssssssssssssssssssssssssss");					
 		return f;
 	}
@@ -155,18 +143,18 @@ public class FeriadoService implements IFeriadoSer {
 		SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd-MM");
 		List<Date> dates2 = new ArrayList<>();
 		//List<Date> dates3 = listarferiadosaños(id);
-		List<modelferiadopermanente> modelferiadospermentes = quitaraño(id);
-		List<modelferiadopermanente> modelferiadospermenteslistar = new ArrayList<>();
-		List<FeriadoAño> feriadosaños=listarferiadosaños(id,fechauno,fechados);
-		List<FeriadoPermanente> feriadopermanentes = new ArrayList<>();
-		List<modelferiadoaño> feriadopermanentess = new ArrayList<>();
-		List<FeriadoAño> feriadoaños = new ArrayList<>();
+		List<modelFeriado> modelferiadospermentes = quitaraño(id);
+		List<modelFeriado> modelferiadospermenteslistar = new ArrayList<>();
+		List<Feriado> feriadosaños=listarferiadosaños(id,fechauno,fechados);
+		List<Feriado> feriadopermanentes = new ArrayList<>();
+		List<modelFeriado> feriadopermanentess = new ArrayList<>();
+		List<Feriado> feriadoaños = new ArrayList<>();
 		
 
-			for(modelferiadopermanente feriadopermanente : modelferiadospermentes) {
+			for(modelFeriado feriadopermanente : modelferiadospermentes) {
 				for(Date dia : listaEntreFechas) 
 				{	
-					modelferiadopermanente feriadoper = transformarfecha(feriadopermanente,dia);
+					modelFeriado feriadoper = transformarfecha(feriadopermanente,dia);
 					
 					Logger.info("ENTROOOOOO " +feriadoper.getFecha()+"assddas");					
 					
@@ -185,7 +173,7 @@ public class FeriadoService implements IFeriadoSer {
 			
 			
 				
-			for(modelferiadopermanente feriadopermanente: modelferiadospermenteslistar) {
+			for(modelFeriado feriadopermanente: modelferiadospermenteslistar) {
 				Logger.info("ENTROOOOOO " +feriadopermanente.getFecha()+" jijiji");					
 				feriadopermanentes.add(converterferiadosentity(feriadopermanente));
 			}
@@ -196,11 +184,11 @@ public class FeriadoService implements IFeriadoSer {
 			List<Object> objetoss =new ArrayList<>();
 			List<Object> objetosss =new ArrayList<>();
 			
-			for(FeriadoAño feriado : feriadosaños) {
+			for(Feriado feriado : feriadosaños) {
 				feriadopermanentess.add(listarferiadoo(feriado));
 			}
 			
-			for(modelferiadoaño model : feriadopermanentess) {
+			for(modelFeriado model : feriadopermanentess) {
 				feriadoaños.add(listarferiadoFeriado(model));
 			}		
 			
@@ -208,8 +196,8 @@ public class FeriadoService implements IFeriadoSer {
 		    HashMap<Date,Object> listaProductos2 = new HashMap<Date,Object>();
 
 
-			for(FeriadoPermanente fe : feriadopermanentes) {
-				for(FeriadoAño feriado : feriadoaños) {
+			for(Feriado fe : feriadopermanentes) {
+				for(Feriado feriado : feriadoaños) {
 					if(fe.getFecha().compareTo(feriado.getFecha())>0) {
 						map.put(feriado.getFecha(), feriado);						
 					}
@@ -264,7 +252,7 @@ public class FeriadoService implements IFeriadoSer {
 	
 	
 	
-	public void pasarfilto(FeriadoAño feriado) {
+	public void pasarfilto(Feriado feriado) {
 		List<Object> objetoss =new ArrayList<>();
 		for(Object objeto : objetoss){
 			if(objeto!=feriado) {
@@ -274,9 +262,9 @@ public class FeriadoService implements IFeriadoSer {
 		
 	}
 	
-	public modelferiadopermanente transformarfecha(modelferiadopermanente model,Date dia) {
+	public modelFeriado transformarfecha(modelFeriado model,Date dia) {
 		String fecha2="";
-		modelferiadopermanente mo = new modelferiadopermanente();
+		modelFeriado mo = new modelFeriado();
 		SimpleDateFormat formato2 = new SimpleDateFormat("yyyy");	
 		//Logger.info("ENTROOOOOOOOOOOOOOOOOOO "+fecha.concat("-").concat(formato2.format(dia)));		
 		mo.setId(model.getId());

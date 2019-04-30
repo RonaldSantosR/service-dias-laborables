@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -35,7 +36,6 @@ public class Feriado implements Serializable{
 	@Column(name="feriado_id")
 	private long id;
 	
-	
 	@JsonFormat
 	(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone="America/Lima") 
 	@Temporal(TemporalType.DATE)
@@ -46,13 +46,34 @@ public class Feriado implements Serializable{
 	@JoinColumn(name="ambito_id")
 	private Ambito ambito;
 	
-	
-	
-	public Ambito getAmbito() {
-		return ambito;
+	public String getNombre() {
+		return nombre;
 	}
 
 
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	private String nombre;
+	
+	private Long periodo;
+	
+	
+	
+	public Long getPeriodo() {
+		return periodo;
+	}
+
+
+	public void setPeriodo(Long periodo) {
+		this.periodo = periodo;
+	}
+
+
+	public Ambito getAmbito() {
+		return ambito;
+	}
 
 
 	public void setAmbito(Ambito ambito) {
@@ -60,13 +81,9 @@ public class Feriado implements Serializable{
 	}
 
 
-
-
 	public long getId() {
 		return id;
 	}
-
-
 
 
 	public void setId(long id) {
@@ -74,24 +91,14 @@ public class Feriado implements Serializable{
 	}
 
 
-
-
 	public Date getFecha() {
 		return fecha;
 	}
 
 
-
-
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
-
-	
-
-
-	
-
 
 
 	private static final long serialVersionUID = 1L;

@@ -17,11 +17,9 @@ import org.springframework.stereotype.Service;
 import com.udemy.entity.Ambito;
 import com.udemy.entity.Dia;
 import com.udemy.entity.Feriado;
-import com.udemy.entity.FeriadoPermanente;
-import com.udemy.model.modelferiadopermanente;
+import com.udemy.model.modelFeriado;
 import com.udemy.repository.AmbitoRepository;
 import com.udemy.repository.DiaRepository;
-import com.udemy.repository.FeriadoPRepository;
 import com.udemy.repository.FeriadoRepository;
 import com.udemy.service.interfaces.IDiaService;
 import com.udemy.util.RestResponse;
@@ -38,8 +36,6 @@ public class DiaService implements IDiaService {
 	@Autowired
 	private FeriadoRepository feriadorepo;
 
-	@Autowired
-	private FeriadoPRepository feriadoprepo;
 
 	@Override
 	public List<Dia> findall() {
@@ -70,21 +66,22 @@ public class DiaService implements IDiaService {
 		return Listardias(id, fechauno, fechados);
 	}
 
-	public List<modelferiadopermanente> quitaraño(Long id) {
-		Iterable<FeriadoPermanente> feriadospermanentes = feriadoprepo.findAllByAmbitoid(id);
+	public List<modelFeriado> quitaraño(Long id) {
+		Iterable<Feriado> feriadospermanentes = feriadorepo.findAllByAmbitoid(id);
+		
 		List<Date> dates2 = new ArrayList<>();
-		List<modelferiadopermanente> modelferiadospermentes = new ArrayList<>();
+		List<modelFeriado> modelferiadospermentes = new ArrayList<>();
 
-		for (FeriadoPermanente feriadop : feriadospermanentes) {
-			modelferiadopermanente model = converterferiados(feriadop);
+		for (Feriado feriadop : feriadospermanentes) {
+			modelFeriado model = converterferiados(feriadop);
 			modelferiadospermentes.add(model);
 		}
 
 		return modelferiadospermentes;
 	}
 
-	public modelferiadopermanente converterferiados(FeriadoPermanente feriados) {
-		modelferiadopermanente modelferiados = new modelferiadopermanente();
+	public modelFeriado converterferiados(Feriado feriados) {
+		modelFeriado modelferiados = new modelFeriado();
 		SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd-MM");
 
 		modelferiados.setId(feriados.getId());
@@ -109,9 +106,9 @@ public class DiaService implements IDiaService {
 		return listaFechas;
 	}
 
-	public modelferiadopermanente transformarfecha(modelferiadopermanente model, Date dia) {
+	public modelFeriado transformarfecha(modelFeriado model, Date dia) {
 		String fecha2 = "";
-		modelferiadopermanente mo = new modelferiadopermanente();
+		modelFeriado mo = new modelFeriado();
 		SimpleDateFormat formato2 = new SimpleDateFormat("yyyy");
 		// Logger.info("ENTROOOOOOOOOOOOOOOOOOO
 		// "+fecha.concat("-").concat(formato2.format(dia)));
@@ -126,16 +123,16 @@ public class DiaService implements IDiaService {
 		SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
 		Iterable<Dia> diasambito = diaRepository.findByDiaPorAmbito(id);
 		List<String> nombredias = new ArrayList<>();
-		List<modelferiadopermanente> modelo = new ArrayList<>();
-		List<modelferiadopermanente> models = quitaraño(id);
+		List<modelFeriado> modelo = new ArrayList<>();
+		List<modelFeriado> models = quitaraño(id);
 		Iterable<Feriado> feriados = feriadorepo.findAllByAmbitoid(id, fechauno, fechados);
 		List<Date> listaentrefecha = getListaEntreFechas(fechauno, fechados);
 		SimpleDateFormat sdff = new SimpleDateFormat("E");
 		List<String> devolverfechas = new ArrayList<>();
 		//List<FeriadoPermanente> feriadoperm = new ArrayList<>();
-		for (modelferiadopermanente feriadopermanente : models) {
+		for (modelFeriado feriadopermanente : models) {
 			for (Date dia : listaEntreFechas) {
-				modelferiadopermanente feriadoper = transformarfecha(feriadopermanente, dia);
+				modelFeriado feriadoper = transformarfecha(feriadopermanente, dia);
 				modelo.add(feriadoper);
 				// dates2.add(formato.parse(diaa.concat("-").concat(formato2.format(dia))));
 			}
@@ -159,7 +156,7 @@ public class DiaService implements IDiaService {
 				}
 			}
 
-			for (modelferiadopermanente fecha2 : modelo) {// FeriadoPermanente fecha2 : feriadoperm
+			for (modelFeriado fecha2 : modelo) {// FeriadoPermanente fecha2 : feriadoperm
 				if (formato.format(date).equals(fecha2.getFecha())) {// formato.format(fecha2.getFecha()))
 					constante = false;
 				}

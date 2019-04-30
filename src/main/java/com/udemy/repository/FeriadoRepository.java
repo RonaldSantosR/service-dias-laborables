@@ -19,5 +19,6 @@ public interface FeriadoRepository extends CrudRepository<Feriado, Long> {
 	@Query("From Feriado f where f.ambito.id=?1 and f.fecha<?2")	
 	public Iterable<Feriado> buscarferiadospermanentes(Long id,Date fecha);
 
-
+	@Query("From Feriado f where f.id in (select r.id From Feriado r where r.ambito.id=?1)")	
+	Iterable<Feriado> findAllByAmbitoid(Long id);
 }

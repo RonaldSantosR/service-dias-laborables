@@ -6,8 +6,6 @@ import java.util.Map;
 
 import com.udemy.entity.Ambito;
 import com.udemy.entity.Feriado;
-import com.udemy.entity.FeriadoPermanente;
-import com.udemy.model.modelferiadopermanente;
 import com.udemy.util.RestResponse;
 
 public interface IFeriadoService {
@@ -16,5 +14,9 @@ public interface IFeriadoService {
 	
 	RestResponse eliminar(Map<String, String> id);
 	
+	RestResponse registrarferiado(String feriado,Map<String, String> id) throws IOException;
+	
+
+	Iterable<Feriado> listarferiados();
 
 }

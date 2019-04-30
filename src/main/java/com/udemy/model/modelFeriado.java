@@ -13,6 +13,25 @@ public class modelFeriado {
 	@JsonIgnore
 	private Ambito ambito;
 	
+	private String nombre;
+	
+	private Long periodo;
+	
+	
+	
+	public Long getPeriodo() {
+		return periodo;
+	}
+	public void setPeriodo(Long periodo) {
+		this.periodo = periodo;
+	}
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	
 	public long getId() {
 		return id;
 	}

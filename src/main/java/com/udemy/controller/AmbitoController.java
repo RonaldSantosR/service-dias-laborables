@@ -24,9 +24,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.udemy.entity.Ambito;
 import com.udemy.entity.Dia;
 import com.udemy.entity.DiaHora;
+import com.udemy.entity.Feriado;
 import com.udemy.service.interfaces.IAmbitoService;
 import com.udemy.service.interfaces.IDiaService;
-import com.udemy.service.interfaces.IFeriadoAñoService;
 import com.udemy.service.interfaces.IFeriadoSer;
 import com.udemy.service.interfaces.IFeriadoService;
 import com.udemy.util.RestResponse;
@@ -54,10 +54,9 @@ public class AmbitoController {
 	private IDiaService diaservice;
 
 	@Autowired
-	private IFeriadoService feriadopermanentes;
+	private IFeriadoService feriados;
 
-	@Autowired
-	private IFeriadoAñoService feriadoaño;
+
 
 	private static final Log Logger = LogFactory.getLog(AmbitoController.class);
 	@Autowired
@@ -87,16 +86,34 @@ public class AmbitoController {
 	public RestResponse guardarferiadopermanente(@RequestBody String feriadopermanente,
 			/* @PathVariable Long id */ @PathVariable Map<String, String> pathVariablesMap)
 			throws JsonParseException, JsonMappingException, IOException, ParseException {
-		return feriadopermanentes.registrar(feriadopermanente, pathVariablesMap);
+		return feriados.registrar(feriadopermanente, pathVariablesMap);
 	}
 
 	@PostMapping({ "/{id}/feriadoanios", "/feriadoanios" })
 	public RestResponse guardarferiadoaño(@RequestBody String feriadopermanente,
 			/* @PathVariable Long id */ @PathVariable Map<String, String> pathVariablesMap)
 			throws JsonParseException, JsonMappingException, IOException, ParseException {
-		return feriadoaño.registrar(feriadopermanente, pathVariablesMap);
+		return feriados.registrar(feriadopermanente, pathVariablesMap);
 	}
+	
 
+	@PostMapping({ "/{id}/feriados", "/feriados" })
+	public RestResponse guardarferiado(@RequestBody String feriado,
+			/* @PathVariable Long id */ @PathVariable Map<String, String> pathVariablesMap)
+			throws JsonParseException, JsonMappingException, IOException, ParseException {
+		Logger.info("ENTRO CONTROLLER");
+		return feriados.registrarferiado(feriado, pathVariablesMap);
+	}
+	 
+	@GetMapping("/{id}/feriados")
+	public Iterable<Feriado> listarferiados(
+			/* @PathVariable Long id */ @PathVariable Long id)
+			throws JsonParseException, JsonMappingException, IOException, ParseException {
+		Logger.info("ENTRO CONTROLLER");
+		return feriados.listarferiados();
+	}	
+	
+	
 	@GetMapping
 	public Iterable<Ambito> MostrarAmbito() throws JsonProcessingException {
 		return this.ambitoservice.ListarAmbitos();
