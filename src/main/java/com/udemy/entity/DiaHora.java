@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -46,20 +47,22 @@ public class DiaHora implements Serializable {
 	@JoinColumn(name="dia_id",nullable=false)
     private Dia dia;
 	
-	/*
+	
 	@ManyToOne(fetch=FetchType.LAZY)	
 	@JoinColumn(name="ambito_id")
+	@JsonIgnore
 	private Ambito ambito;
-	*/
 	
-	/*
+	private int activo;
+
+	
 	public Ambito getAmbito() {
 		return ambito;
 	}
 
 	public void setAmbito(Ambito ambito) {
 		this.ambito = ambito;
-	}*/
+	}
 
 	public long getId() {
 		return id;
@@ -94,17 +97,19 @@ public class DiaHora implements Serializable {
 		this.fin = fin;
 	}
 
-/*	public void setInicio(java.sql.Time inicio) {
-		this.inicio = inicio;
+	@PrePersist
+	public void prePersist() {
+		this.activo=1;
+	}	
+
+	public int getActivo() {
+		return activo;
 	}
 
-
-	public void setFin(java.sql.Time fin) {
-		this.fin = fin;
+	public void setActivo(int activo) {
+		this.activo = activo;
 	}
-*/
 
-	
 	private static final long serialVersionUID = 1L;
 
 }

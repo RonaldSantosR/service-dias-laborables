@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.udemy.model.modelAmbito;
 
 @Entity
 @Table(name="ambito")
@@ -32,6 +33,7 @@ public class Ambito implements Serializable{
 	
 	@OneToMany(fetch=FetchType.EAGER , cascade = CascadeType.PERSIST)
 	@JoinColumn(name="ambito_id")
+	//@JsonIgnore
 	private Set<DiaHora> diasHora;
 	
 	
@@ -44,10 +46,22 @@ public class Ambito implements Serializable{
 	
 	//
 	
-
+	
 
 	public Set<Feriado> getFeriados() {
 		return feriados;
+	}
+	
+
+	public Ambito() {
+	}
+
+
+	public Ambito(long id, String nombre, Set<DiaHora> diasHora, Set<Feriado> feriados) {
+		this.id = id;
+		this.nombre = nombre;
+		this.diasHora = diasHora;
+		this.feriados = feriados;
 	}
 
 

@@ -19,6 +19,8 @@ import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -35,11 +37,12 @@ public class Feriado implements Serializable{
 	
 	
 	@JsonFormat
-	(shape = JsonFormat.Shape.STRING, pattern = "dd/mm/yyyy", timezone="America/Lima")
+	(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone="America/Lima") 
 	@Temporal(TemporalType.DATE)
 	private Date fecha;
 	
 	@ManyToOne(fetch = FetchType.LAZY)	
+	@JsonIgnore
 	@JoinColumn(name="ambito_id")
 	private Ambito ambito;
 	
@@ -84,6 +87,10 @@ public class Feriado implements Serializable{
 		this.fecha = fecha;
 	}
 
+	
+
+
+	
 
 
 
