@@ -2,6 +2,7 @@ package com.udemy.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.udemy.entity.Ambito;
 import com.udemy.entity.Dia;
 
@@ -15,6 +16,7 @@ public class modelDiaHora {
 	
     private modelDia dia;
     
+    @JsonIgnore
 	private modelAmbito ambito;
 	
 	private int activo;

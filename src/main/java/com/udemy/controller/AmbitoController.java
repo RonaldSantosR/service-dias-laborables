@@ -25,6 +25,8 @@ import com.udemy.entity.Ambito;
 import com.udemy.entity.Dia;
 import com.udemy.entity.DiaHora;
 import com.udemy.entity.Feriado;
+import com.udemy.model.modelAmbito;
+import com.udemy.model.modelFeriado;
 import com.udemy.service.interfaces.IAmbitoService;
 import com.udemy.service.interfaces.IDiaService;
 import com.udemy.service.interfaces.IFeriadoSer;
@@ -56,7 +58,8 @@ public class AmbitoController {
 	@Autowired
 	private IFeriadoService feriados;
 
-
+	@Autowired
+	private IFeriadoSer feriados2;
 
 	private static final Log Logger = LogFactory.getLog(AmbitoController.class);
 	@Autowired
@@ -105,19 +108,28 @@ public class AmbitoController {
 		return feriados.registrarferiado(feriado, pathVariablesMap);
 	}
 	 
+	
+
 	@GetMapping("/{id}/feriados")
-	public Iterable<Feriado> listarferiados(
-			/* @PathVariable Long id */ @PathVariable Long id)
+	public Iterable<modelFeriado> listarferiados(@PathVariable Long id)
 			throws JsonParseException, JsonMappingException, IOException, ParseException {
-		Logger.info("ENTRO CONTROLLER");
-		return feriados.listarferiados();
+			return feriados2.listarferiados(id);
 	}	
 	
 	
-	@GetMapping
+	
+	
+	@GetMapping("/modelambitos")
 	public Iterable<Ambito> MostrarAmbito() throws JsonProcessingException {
 		return this.ambitoservice.ListarAmbitos();
 	}
+	
+	@GetMapping
+	public List<modelAmbito> MostrarModalAmbito()  {
+		Logger.info("ENTRO CONTROLLER");
+		return this.ambitoservice.ListarModalAmbitos();
+	}	
+
 	
 	@GetMapping( { "/{id}/horaslaborales", "/horalaborales" })
 	public ResponseEntity<?>  MostrarAmbitoporAmbito(@PathVariable Map<String, String> pathVariablesMap) throws JsonProcessingException {
@@ -165,7 +177,7 @@ public class AmbitoController {
 		}
 	}
 
-	@GetMapping({ "/{id}/feriados", "/feriados" })
+	@GetMapping({ "/{id}/feriadosrangos", "/feriadosrangos" })
 	public ResponseEntity<?> BuscarFeridos(@PathVariable Map<String, String> pathVariablesMap,
 			@RequestParam(value = "fecha1", required = false) String fecha1,
 			@RequestParam(value = "fecha2", required = false) String fecha2) throws ParseException {
@@ -221,6 +233,9 @@ public class AmbitoController {
 			@RequestParam(value = "fecha1", required = false) String fecha1,
 			@RequestParam(value = "fecha2", required = false) String fecha2)
 			throws JsonParseException, JsonMappingException, IOException, ParseException {
+			Logger.info("INGRESADO FECHA1 "+fecha1);
+			Logger.info("INGRESADO FECHA2 "+fecha2);
+			
 		try {
 			if (pathVariablesMap.containsKey("id")) {
 				Long id = Long.parseLong(pathVariablesMap.get("id"));
@@ -252,7 +267,7 @@ public class AmbitoController {
 					return new ResponseEntity<Map<String, Object>>(respuesta, HttpStatus.BAD_REQUEST);
 
 				}
-				return new ResponseEntity<List<String>>(diaservice.listardiaslaborales(id, fecha1, fecha2),
+				return new ResponseEntity<HashMap<Integer,String>>(diaservice.listardiaslaborales(id, fecha1, fecha2),
 						HttpStatus.OK);
 			} else {
 				respuesta.put("mensaje", NOINGRESADO);

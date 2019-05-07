@@ -11,9 +11,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -33,52 +34,89 @@ public class Ambito implements Serializable{
 	
 	@OneToMany(fetch=FetchType.EAGER , cascade = CascadeType.PERSIST)
 	@JoinColumn(name="ambito_id")
-	//@JsonIgnore
-	private Set<DiaHora> diasHora;
+	@JsonIgnore
+	private Set<DiaHora> diaLaborable;
 	
 	
 	
+	//diaLaborable
+
+	/*
 	//Feriados Permanentes
 	@OneToMany(fetch=FetchType.EAGER)
 	@JoinColumn(name="ambito_id")
 	@JsonIgnore
 	private Set<Feriado> feriados;
-	
+	*/
 	//
 	
-	
+	@ManyToMany(mappedBy = "Ambito")
+	@JsonIgnore
+	private Set<Feriado> feriado;
 
-	public Set<Feriado> getFeriados() {
-		return feriados;
-	}
-	
 
+	/*
 	public Ambito() {
 	}
+	
 
+	public Ambito(long id, String nombre, Set<DiaHora> diaLaborable ,Set<Feriado> feriados) {
+		this.id = id;
+		this.nombre = nombre;
+		this.diaLaborable = diaLaborable;
+		this.feriados = feriados;
+	}
+*/
 
+/*
 	public Ambito(long id, String nombre, Set<DiaHora> diasHora, Set<Feriado> feriados) {
 		this.id = id;
 		this.nombre = nombre;
-		this.diasHora = diasHora;
+		this.diaLaborable = diasHora;
 		this.feriados = feriados;
+	}
+*/
+
+
+
+
+
+	public Set<DiaHora> getDiaLaborable() {
+		return diaLaborable;
 	}
 
 
-	public void setFeriados(Set<Feriado> feriados) {
-		this.feriados = feriados;
+
+
+	public Set<Feriado> getFeriado() {
+		return feriado;
 	}
 
 
+
+
+	public void setFeriado(Set<Feriado> feriado) {
+		this.feriado = feriado;
+	}
+
+
+
+
+	public void setDiaLaborable(Set<DiaHora> diaLaborable) {
+		this.diaLaborable = diaLaborable;
+	}
+
+
+/*
 	public Set<DiaHora> getDiasHora() {
-		return diasHora;
+		return diaLaborable;
 	}
 
 
 	public void setDiasHora(Set<DiaHora> diasHora) {
-		this.diasHora = diasHora;
+		this.diaLaborable = diasHora;
 	}
-
+*/
 	public long getId() {
 		return id;
 	}

@@ -72,8 +72,8 @@ public class AmbitoService implements IAmbitoService {
 		modelAmbito modelambito;
 		try {
 			modelambito = this.mapper.readValue(ambitoss, modelAmbito.class);
-
-			for (modelDiaHora diahora : modelambito.getDiasHora()) {
+	
+			for (modelDiaHora diahora : modelambito.getDiaLaborable()) {
 				LocalTime Inicio = null;
 				LocalTime Fin = null;
 				try {
@@ -107,13 +107,13 @@ public class AmbitoService implements IAmbitoService {
 			DiaHora diahora = new DiaHora();
 
 			ambitos.setNombre(modelambito.getNombre());
-			for (modelDiaHora model : modelambito.getDiasHora()) {
+			for (modelDiaHora model : modelambito.getDiaLaborable()) {
 				diahora = converterdiahora(model);
 				sets.add(diahora);
 
 			}
-
-			ambitos.setDiasHora(sets);
+			ambitos.setDiaLaborable(sets);
+			//setDiasHora(sets);
 
 			ambitorepository.save(ambitos);
 			return new RestResponse(HttpStatus.OK.value(), "Operacion Exitosa");
@@ -121,25 +121,20 @@ public class AmbitoService implements IAmbitoService {
 	}
 
 	public DiaHora converterdiahora(modelDiaHora modeldia) throws ParseException {
-
 		DiaHora dia = new DiaHora();
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-
 		dia.setId(modeldia.getId());
 		dia.setInicio(sdf.parse(modeldia.getInicio()));
 		dia.setFin(sdf.parse(modeldia.getFin()));
 		dia.setActivo(modeldia.getActivo());
 		dia.setDia(converterdia(modeldia.getDia()));
-
 		return dia;
 	}
 
 	public Dia converterdia(modelDia model) {
-
 		Dia dias = new Dia();
 		dias.setId(model.getId());
 		dias.setNombre(model.getNombre());
-
 		return dias;
 	}
 
@@ -174,7 +169,7 @@ public class AmbitoService implements IAmbitoService {
 			modelambito = this.mapper.readValue(ambito, modelAmbito.class);
 
 			Logger.info("ModelAmbito nombre :" + modelambito.getNombre());
-			for (modelDiaHora diahora : modelambito.getDiasHora()) {
+			for (modelDiaHora diahora : modelambito.getDiaLaborable()) {
 				Logger.info("ModelAmbito Inicio :" + diahora.getInicio());
 				Logger.info("ModelAmbito Fin :" + diahora.getFin());
 				LocalTime Inicio = null;
@@ -214,7 +209,7 @@ public class AmbitoService implements IAmbitoService {
 			
 			for(DiaHora diadiahora : listadiashora) {
 
-			for (modelDiaHora model : modelambito.getDiasHora()) {
+			for (modelDiaHora model : modelambito.getDiaLaborable()) {
 				diahora = converterdiahora(model);
 				diahora.setAmbito(ambitoid);
 				diahorarepository.save(diahora);				
@@ -236,7 +231,7 @@ public class AmbitoService implements IAmbitoService {
 		if (ambito.getNombre().equals("")) {
 			constante = false;
 		}
-		for (modelDiaHora diahora : ambito.getDiasHora()) {
+		for (modelDiaHora diahora : ambito.getDiaLaborable()) {
 
 			modelDia dia = diahora.getDia();
 			if (dia.getId() < 0) {
@@ -280,5 +275,60 @@ public class AmbitoService implements IAmbitoService {
 	public Iterable<DiaHora> listarhoras(Long id) {
 		return diahorarepository.findhorasById(id);
 	}
+
+	@Override
+	public List<modelAmbito> ListarModalAmbitos() {
+		Iterable<Ambito> ambitos = ambitorepository.findAll();
+		List<modelAmbito> modelAmbitos =  new ArrayList<>();
+		for(Ambito ambito : ambitos) {
+			modelAmbito modelambito = new modelAmbito();
+			Set<modelDiaHora> sets = new HashSet<modelDiaHora>();		
+			modelambito.setId(ambito.getId());
+			modelambito.setNombre(ambito.getNombre());
+			Logger.info("ddasads " + modelambito.getId());			
+			Logger.info("ddasads " + modelambito.getNombre());
+			for (DiaHora diahora : ambito.getDiaLaborable()) {
+				modelDiaHora modeldia = new modelDiaHora();								
+				modeldia = convertirdiahoras(diahora);
+				Logger.info("ddasads " + modeldia.getId());
+				sets.add(modeldia);
+			}
+			modelambito.setDiaLaborable(sets);		
+			modelAmbitos.add(modelambito);
+		}
+
+		return modelAmbitos;
+	}
+	
+
+	
+	public modelDiaHora convertirdiahoras(DiaHora diaLaborable) {
+		Set<modelDiaHora> modeldiashoras = new HashSet<>();
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+		modelDiaHora modeldiahora  =new modelDiaHora();
+		modeldiahora.setId(diaLaborable.getId());
+		modeldiahora.setInicio(sdf.format(diaLaborable.getInicio()));
+		modeldiahora.setFin(sdf.format(diaLaborable.getFin()));
+		modeldiahora.setDia(convertirdia(diaLaborable.getDia()));
+		modeldiahora.setActivo(diaLaborable.getActivo());
+		return modeldiahora;
+	}
+
+	public modelAmbito convertirambito(Ambito ambito) {
+		modelAmbito modelambito= new modelAmbito();
+		modelambito.setId(ambito.getId());
+		modelambito.setNombre(ambito.getNombre());
+		return modelambito;
+	}
+	
+	
+	public modelDia convertirdia(Dia dia) {
+		modelDia modeldia = new modelDia();
+		modeldia.setId(dia.getId());
+		modeldia.setNombre(dia.getNombre());
+		return modeldia;
+	}
+	
+
 
 }

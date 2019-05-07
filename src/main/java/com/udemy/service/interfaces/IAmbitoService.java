@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.udemy.entity.Ambito;
 import com.udemy.entity.DiaHora;
+import com.udemy.model.modelAmbito;
 import com.udemy.util.RestResponse;
 
 public interface IAmbitoService {
@@ -18,4 +19,6 @@ public interface IAmbitoService {
 	Ambito ListarById(Long id); 
 	Iterable<Ambito> ListarAmbitos() throws JsonProcessingException;
 	Iterable<DiaHora> listarhoras(Long id);
+	List<modelAmbito> ListarModalAmbitos();
+	
 }

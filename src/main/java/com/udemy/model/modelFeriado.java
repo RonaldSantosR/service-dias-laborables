@@ -1,6 +1,7 @@
 package com.udemy.model;
 
 import java.util.Date;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.udemy.entity.Ambito;
@@ -10,14 +11,12 @@ public class modelFeriado {
 	private long id;
 	
 	private String fecha;
-	@JsonIgnore
-	private Ambito ambito;
+	
+	private Set<Ambito> Ambito;
 	
 	private String nombre;
 	
 	private Long periodo;
-	
-	
 	
 	public Long getPeriodo() {
 		return periodo;
@@ -45,12 +44,13 @@ public class modelFeriado {
 	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
-	public Ambito getAmbito() {
-		return ambito;
+	public Set<Ambito> getAmbito() {
+		return Ambito;
 	}
-	public void setAmbito(Ambito ambito) {
-		this.ambito = ambito;
+	public void setAmbito(Set<Ambito> ambito) {
+		Ambito = ambito;
 	}
+
 
 
 }
