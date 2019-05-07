@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +38,8 @@ public class DiaService implements IDiaService {
 	@Autowired
 	private FeriadoRepository feriadorepo;
 
+	private static final Log Logger = LogFactory.getLog(DiaService.class);
+
 
 	@Override
 	public List<Dia> findall() {
@@ -48,7 +52,7 @@ public class DiaService implements IDiaService {
 	}
 
 	@Override
-	public List<String> listardiaslaborales(Long id, String fecha1, String fecha2) throws ParseException {
+	public HashMap<Integer,String> listardiaslaborales(Long id, String fecha1, String fecha2) throws ParseException {
 
 		Ambito ambito = ambitorepo.findById(id).orElse(null);
 
@@ -118,23 +122,25 @@ public class DiaService implements IDiaService {
 		return mo;
 	}
 
-	public List<String> Listardias(Long id, Date fechauno, Date fechados) throws ParseException {
+	public HashMap<Integer,String> Listardias(Long id, Date fechauno, Date fechados) throws ParseException {
+		
 		List<Date> listaEntreFechas = getListaEntreFechas2(fechauno, fechados);
 		SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
 		Iterable<Dia> diasambito = diaRepository.findByDiaPorAmbito(id);
 		List<String> nombredias = new ArrayList<>();
 		List<modelFeriado> modelo = new ArrayList<>();
 		List<modelFeriado> models = quitaraño(id);
-		Iterable<Feriado> feriados = feriadorepo.findAllByAmbitoid(id, fechauno, fechados);
+		//List<Feriado> feriados = new ArrayList<>();
+		Iterable<Feriado> feriados = feriadorepo.findAllByAmbitoidentrefechasaño(id, fechauno, fechados);
 		List<Date> listaentrefecha = getListaEntreFechas(fechauno, fechados);
 		SimpleDateFormat sdff = new SimpleDateFormat("E");
 		List<String> devolverfechas = new ArrayList<>();
-		//List<FeriadoPermanente> feriadoperm = new ArrayList<>();
+		List<Feriado> feriadoperm = new ArrayList<>();
 		for (modelFeriado feriadopermanente : models) {
 			for (Date dia : listaEntreFechas) {
 				modelFeriado feriadoper = transformarfecha(feriadopermanente, dia);
 				modelo.add(feriadoper);
-				// dates2.add(formato.parse(diaa.concat("-").concat(formato2.format(dia))));
+				// dates2.add(formato.parse(di	aa.concat("-").concat(formato2.format(dia))));
 			}
 
 		}
@@ -150,6 +156,7 @@ public class DiaService implements IDiaService {
 
 		for (Date date : listaentrefecha) {
 			boolean constante = true;
+			
 			for (Feriado fecha : feriados) {
 				if (formato.format(date).equals(formato.format(fecha.getFecha()))) {
 					constante = false;
@@ -167,12 +174,23 @@ public class DiaService implements IDiaService {
 					devolverfechas.add(formato.format(date));
 				}
 			}
+			
 
 		}
-
-		return devolverfechas;
+		
+		
+		HashMap<Integer,String> mapa = new HashMap<>();
+		int i=0;
+		for(String fecha : devolverfechas) 
+		{ i++;
+			mapa.put(i, fecha);
+		}
+		
+		
+		return mapa;
 	}
 
+	
 	/*
 	 * public FeriadoPermanente converterferiadosentity(modelferiadopermanente
 	 * feriados) throws ParseException{ FeriadoPermanente modelferiados=new
@@ -184,6 +202,7 @@ public class DiaService implements IDiaService {
 	 * modelferiados.setFecha(formatoDelTexto.parse(feriados.getFecha())); return
 	 * modelferiados; }
 	 */
+	 
 
 	public List<Date> getListaEntreFechas(Date fechaInicio, Date fechaFin) {
 

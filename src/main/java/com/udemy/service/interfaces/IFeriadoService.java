@@ -2,10 +2,12 @@ package com.udemy.service.interfaces;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.Map;
 
 import com.udemy.entity.Ambito;
 import com.udemy.entity.Feriado;
+import com.udemy.model.modelFeriado;
 import com.udemy.util.RestResponse;
 
 public interface IFeriadoService {
@@ -16,7 +18,12 @@ public interface IFeriadoService {
 	
 	RestResponse registrarferiado(String feriado,Map<String, String> id) throws IOException;
 	
+	RestResponse guardarrferiado(String feriado) throws IOException;
 
-	Iterable<Feriado> listarferiados();
+	
+	Iterable<modelFeriado> listarferiados();
+
+	Iterable<Date> listarfechas();
+
 
 }

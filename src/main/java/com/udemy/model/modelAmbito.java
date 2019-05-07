@@ -12,16 +12,15 @@ public class modelAmbito {
 	private String nombre;
 	
 	
-	private Set<modelDiaHora> diasHora;
-	
-	
-	
-	public Set<modelDiaHora> getDiasHora() {
-		return diasHora;
+	private Set<modelDiaHora> diaLaborable;
+
+
+	public Set<modelDiaHora> getDiaLaborable() {
+		return diaLaborable;
 	}
 
-	public void setDiasHora(Set<modelDiaHora> diasHora) {
-		this.diasHora = diasHora;
+	public void setDiaLaborable(Set<modelDiaHora> diaLaborable) {
+		this.diaLaborable = diaLaborable;
 	}
 
 	public long getId() {

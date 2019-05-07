@@ -71,7 +71,7 @@ public class FeriadoPermanenteService implements IFeriadoService {
 			}
 
 			// necesito el Ambito ambito, modeloferiadopermanente feriadopermanente
-			feriadopermanentess.setAmbito(ambito);
+			//feriadopermanentess.setAmbito(ambito);
 			/*
 			 * SimpleDateFormat sdf = new SimpleDateFormat("dd-MM"); String fechaComoCadena
 			 * = sdf.format(feriadopermanente.getFecha()); Logger.info("Fecha a string " +
@@ -108,14 +108,14 @@ public class FeriadoPermanenteService implements IFeriadoService {
 				if (!validarferiado(feriado)) {
 					return new RestResponse(HttpStatus.BAD_REQUEST.value(), "Verifique los datos ingresados");
 				} else {
-
-					if (repetirfecha(feriado.getFecha(), id)) {
-						feriadorepository.save(feriado);
-						return new RestResponse(HttpStatus.OK.value(),
-								"Se ha registrado correctamente los datos del ámbito");
-					} else {
-						return new RestResponse(HttpStatus.BAD_REQUEST.value(), "Repites el feriado");
-					}
+						return null;
+//					if (repetirfecha(feriado.getFecha(), id)) {
+//						feriadorepository.save(feriado);
+//						return new RestResponse(HttpStatus.OK.value(),
+//								"Se ha registrado correctamente los datos del ámbito");
+//					} else {
+//						return new RestResponse(HttpStatus.BAD_REQUEST.value(), "Repites el feriado");
+//					}
 				}
 			} catch (NullPointerException e) {
 				return new RestResponse(HttpStatus.BAD_REQUEST.value(), "Verifique los datos ingresadosssss");
@@ -151,18 +151,24 @@ public class FeriadoPermanenteService implements IFeriadoService {
 	public Feriado convertir(modelFeriado modelferiados) throws ParseException {
 
 		Feriado per = new Feriado();
+		Logger.info("ENTRO A SERVICE6");
 
 		per.setAmbito(modelferiados.getAmbito());
 		per.setNombre(modelferiados.getNombre());
 		per.setPeriodo(modelferiados.getPeriodo());
 		per.setId(modelferiados.getId());
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM");
+		
 		Date date = formatter.parse(modelferiados.getFecha());
 		per.setFecha(date);
+		Logger.info("ENTRO A SERVICE7");
 
 		return per;
 
 	}
+	
+	
+	
 
 	public Feriado convertirpermanentete(modelFeriado modelferiados) throws ParseException {
 
@@ -179,43 +185,62 @@ public class FeriadoPermanenteService implements IFeriadoService {
 
 	}	
 	
-	public boolean repetirfecha(Date fecha, Long id) {
-
-		int i = 0;
-
-		Iterable<Feriado> feriados = feriadorepository.findAll();
-		List<Date> fechas = new ArrayList<Date>();
-
-		if (feriados == null) {
-			return true;
+	
+	public boolean repetirfecha(Feriado feriado) {
+		Iterable<Date> fechas = null;
+		SimpleDateFormat dt = new SimpleDateFormat("dd-MM");				
+		for(Ambito ambito : feriado.getAmbito()) {
+						
+			fechas = feriadorepository.findporAmbito(ambito.getId());
+		
 		}
-
-		for (Feriado feriado : feriados) {
-			// Logger.info("TE MUESTRA ESTO : " + "asd2132121asdasasddass");
-
-			Ambito ambito = feriado.getAmbito();
-			// Logger.info("TE MUESTRA ESTO : " + "asd2132121asdasasddas"+ ambito.getId());
-
-			if (ambito.getId() == id) {
-				// Logger.info("TE MUESTRA ESTO : " + "asd2132121asdasa1111111");
-				fechas.add(feriado.getFecha());
+		
+		for(Date date : fechas) {
+			String fechasinaño = dt.format(date);
+			if(fechasinaño.equals(dt.format(feriado.getFecha()))) {
+				return false;
 			}
-
 		}
-
-		fechas.add(fecha);
-		// Logger.info("TE MUESTRA ESTO : " + "asddasda99999999999");
-
-		HashMap codigosfechas = new HashMap();
-		for (Date dates : fechas) {
-			codigosfechas.put(dates, 0);
-		}
-
-		if (codigosfechas.size() != fechas.size()) {
-			return false;
-		}
+		
+		
+		
+//		Iterable<Feriado> feriados = feriadorepository.findporAmbito();
+//		List<Date> fechas = new ArrayList<Date>();
+//
+//		if (feriados == null) {
+//			return true;
+//		}
+//
+//		for (Feriado feriado : feriados) {
+//			// Logger.info("TE MUESTRA ESTO : " + "asd2132121asdasasddass");
+//
+//			//Ambito ambito = feriado.getAmbito();
+//			// Logger.info("TE MUESTRA ESTO : " + "asd2132121asdasasddas"+ ambito.getId());
+//
+////			if (ambito.getId() == id) {
+////				// Logger.info("TE MUESTRA ESTO : " + "asd2132121asdasa1111111");
+////				fechas.add(feriado.getFecha());
+////			}
+//
+//		}
+//
+//		fechas.add(fecha);
+//		// Logger.info("TE MUESTRA ESTO : " + "asddasda99999999999");
+//
+//		for(Date fechaas : fechas) {
+//			Logger.info("ENTRO A REGISTRAR123 " + "JORGE");
+//		}
+//		Logger.info("ENTRO A REGISTRAR123 " );
+//		HashMap codigosfechas = new HashMap();
+//		for (Date dates : fechas) {
+//			codigosfechas.put(dates, 0);
+//		}
+//
+//		if (codigosfechas.size() != fechas.size()) {
+//			return false;
+//		}
+//		return true;
 		return true;
-
 	}
 
 	public boolean validarFecha(String fecha) {
@@ -307,11 +332,10 @@ public class FeriadoPermanenteService implements IFeriadoService {
 			Logger.info("ENTRO A SERVICE2");
 
 			// necesito el Ambito ambito, modeloferiadopermanente feriadopermanente
-			modelferiados.setAmbito(ambito);
+			//modelferiados.setAmbito(ambito);
 			
 			if(modelferiados.getPeriodo()==1L) {
 				Logger.info("ENTRO A SERVICE3");
-				
 				return registrarferiadopermanente(modelferiados);
 			}else {
 				return registrarferiadoaño(modelferiados);
@@ -323,10 +347,37 @@ public class FeriadoPermanenteService implements IFeriadoService {
 
 	}
 	
+
+	@Override
+	public RestResponse guardarrferiado(String feriado) throws IOException {
+			this.mapper = new ObjectMapper();
+			mapper.isEnabled(DeserializationFeature.FAIL_ON_READING_DUP_TREE_KEY);
+			modelFeriado modelferiados;
+			try {
+				modelferiados = this.mapper.readValue(feriado, modelFeriado.class);
+			} catch (Exception e) {
+				return new RestResponse(HttpStatus.BAD_REQUEST.value(), "Verifique los datos ingresados");
+			}
+			try {
+				mapper.reader(DeserializationFeature.FAIL_ON_READING_DUP_TREE_KEY).readTree(feriado);
+			} catch (JsonMappingException e) {
+				return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(), "Mal Formato de Json");
+			}
+			if(modelferiados.getPeriodo()==1L) {
+				String fecha2 = modelferiados.getFecha();
+				modelferiados.setFecha(fecha2.substring(0,5));
+				Logger.info(modelferiados.getFecha());
+				return registrarferiadopermanente(modelferiados);
+			}else {
+				return registrarferiadoaño(modelferiados);
+			}	
+	}
+	
+	
 	public RestResponse registrarferiadoaño(modelFeriado modelferiados) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		
-		Logger.info("ENTROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+		//Logger.info("ENTROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO " + modelferiados.getAmbito().getId());
 
 				Date dateI = null;
 				try {
@@ -356,19 +407,20 @@ public class FeriadoPermanenteService implements IFeriadoService {
 					} else {
 						Logger.info("ENTRO A REGISTRARR ========== "+ feriado.getFecha());						
 						if (compararfechas(feriado.getFecha())) {
-							Logger.info("ENTRO A REGISTRAR5");
+							Logger.info("ENTRO A REGISTRAR5 ");
 
-							if (repetirfecha(feriado.getFecha(),feriado.getId())) {
+							if (repetirfechaaño(feriado)) {
 								Logger.info("ENTRO A REGISTRAR3");
 								
-								if(comprobarconpermanente(feriado.getFecha(),feriado.getId())) {
+								if(comprobarconpermanente(feriado)) {
+									
 									feriadorepository.save(feriado);
 									return new RestResponse(HttpStatus.OK.value(),"Se ha registrado correctamente los datos del ámbito");
 								}else {
 									Logger.info("ENTRO A REGISTRAR4");
 
 									return new RestResponse(HttpStatus.BAD_REQUEST.value(), MENSAJE_VERIFICAR);
-
+		
 								}
 							} else {
 								return new RestResponse(HttpStatus.BAD_REQUEST.value(), "Repites el feriado");
@@ -392,41 +444,56 @@ public class FeriadoPermanenteService implements IFeriadoService {
 	}
 	
 
-	public boolean comprobarconpermanente(Date fecha,Long id) {
-		
+	public boolean comprobarconpermanente(/*Date fecha,Long id*/ Feriado feriadoaño) {
+		/*
 		boolean constante = true;
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM");
 		DateFormat dateFormataño = new SimpleDateFormat("yyyy");
-		String dia = dateFormat.format(fecha);
+		String dia = dateFormat.format(feriadoaño.getFecha());
 		Iterable<Feriado> feriados = feriadorepository.findAll();
 		List<String> fechas = new ArrayList<String>();
+		 */
 		
-		if(feriados==null) {
-			return true;
+		Iterable<Date> fechas2 = null;
+		SimpleDateFormat dt = new SimpleDateFormat("dd-MM");				
+		for(Ambito ambito : feriadoaño.getAmbito()) {
+			fechas2 = feriadorepository.findporAmbito(ambito.getId());
 		}
 		
-		
-		for (Feriado feriado : feriados) {
-			Ambito ambito = feriado.getAmbito();
-			String Stringaño = dateFormataño.format(feriado.getFecha());
-			String Stringdiames = dateFormat.format(feriado.getFecha());
-			
-			if(ambito.getId()==id) {
-				if(Stringaño.equals("1970") || Stringaño.equals("1980")) {
-					fechas.add(Stringdiames);
-				}
+		for(Date date : fechas2) {
+			String fechasinaño = dt.format(date);
+			if(fechasinaño.equals(dt.format(feriadoaño.getFecha()))) {
+				return false;
 			}
-
 		}
-		fechas.add(dia);
-		HashMap codigosfechas = new HashMap();
-		for (String dates : fechas) {
-			codigosfechas.put(dates, 0);
-		}
-
-		if (codigosfechas.size() != fechas.size()) {
-			return false;
-		}
+		
+		
+//		if(feriados==null) {
+//			return true;
+//		}
+//		
+//		
+//		for (Feriado feriado : feriados) {
+			//Ambito ambito = feriado.getAmbito();
+//			String Stringaño = dateFormataño.format(feriado.getFecha());
+//			String Stringdiames = dateFormat.format(feriado.getFecha());
+			
+//			if(ambito.getId()==id) {
+//				if(Stringaño.equals("1970") || Stringaño.equals("1980")) {
+//					fechas.add(Stringdiames);
+//				}
+//			}
+//			
+//		}
+//		fechas.add(dia);
+//		HashMap codigosfechas = new HashMap();
+//		for (String dates : fechas) {
+//			codigosfechas.put(dates, 0);
+//		}
+//
+//		if (codigosfechas.size() != fechas.size()) {
+//			return false;
+//		}
 		return true;
 	}
 /*
@@ -446,9 +513,10 @@ public class FeriadoPermanenteService implements IFeriadoService {
 
 	}
 	*/
-/*
-	public boolean repetirfecha(Date fecha,Long id) {
 
+	public boolean repetirfechaaño(Feriado feriado) {
+		//año
+		/*
 		Iterable<Feriado> feriados = feriadorepository.findAll();
 		List<Date> fechas = new ArrayList<Date>();
 		
@@ -473,10 +541,65 @@ public class FeriadoPermanenteService implements IFeriadoService {
 		if (codigosfechas.size() != fechas.size()) {
 			return false;
 		}
+		*/
+		
+		
+		Iterable<Date> fechas = null;
+		SimpleDateFormat dt = new SimpleDateFormat("dd-MM-yyyy");
+		Logger.info("++++++");
+		for(Ambito ambito : feriado.getAmbito()) {
+			Logger.info("IDS "+ ambito.getId());
+			fechas = feriadorepository.feriadoañofindporAmbito(ambito.getId());
+		}
+		
+		for(Date date : fechas) {
+			String fechasinaño = dt.format(date);
+			if(fechasinaño.equals(dt.format(feriado.getFecha()))) {
+				return false;
+			}
+		}
+		
+		
+		
+//		Iterable<Feriado> feriados = feriadorepository.findporAmbito();
+//		List<Date> fechas = new ArrayList<Date>();
+//
+//		if (feriados == null) {
+//			return true;
+//		}
+//
+//		for (Feriado feriado : feriados) {
+//			// Logger.info("TE MUESTRA ESTO : " + "asd2132121asdasasddass");
+//
+//			//Ambito ambito = feriado.getAmbito();
+//			// Logger.info("TE MUESTRA ESTO : " + "asd2132121asdasasddas"+ ambito.getId());
+//
+////			if (ambito.getId() == id) {
+////				// Logger.info("TE MUESTRA ESTO : " + "asd2132121asdasa1111111");
+////				fechas.add(feriado.getFecha());
+////			}
+//
+//		}
+//
+//		fechas.add(fecha);
+//		// Logger.info("TE MUESTRA ESTO : " + "asddasda99999999999");
+//
+//		for(Date fechaas : fechas) {
+//			Logger.info("ENTRO A REGISTRAR123 " + "JORGE");
+//		}
+//		Logger.info("ENTRO A REGISTRAR123 " );
+//		HashMap codigosfechas = new HashMap();
+//		for (Date dates : fechas) {
+//			codigosfechas.put(dates, 0);
+//		}
+//
+//		if (codigosfechas.size() != fechas.size()) {
+//			return false;
+//		}
+//		return true;
 		return true;
-
 	}
-*/
+
 	public boolean compararfechas(Date fecha) {
 		//DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		//SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -502,6 +625,8 @@ public class FeriadoPermanenteService implements IFeriadoService {
 	}
 
 	public boolean validarfecha(String fecha) {
+		Logger.info("ENTRO A REGISTRAR555");
+
 		try {
 			//SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
 			dateFormat.setLenient(false);
@@ -556,7 +681,7 @@ public class FeriadoPermanenteService implements IFeriadoService {
 
 			if (!malformato(modelferiados.getFecha())) {
 				return new RestResponse(HttpStatus.BAD_REQUEST.value(),
-						"Verifique los datos ingresadossssssssssssssss");
+						"Verifique los datos ingresadossssssssssssssssaa");
 			}
 			Logger.info("ENTRO A SERVICE5");
 
@@ -564,6 +689,7 @@ public class FeriadoPermanenteService implements IFeriadoService {
 			if (!validarFecha(modelferiados.getFecha())) {
 				return new RestResponse(HttpStatus.BAD_REQUEST.value(), "Verifique los datos ingresadoss");
 			}
+			
 			Feriado feriado = new Feriado();
 
 			try {
@@ -574,8 +700,7 @@ public class FeriadoPermanenteService implements IFeriadoService {
 			if (!validarferiado(feriado)) {
 				return new RestResponse(HttpStatus.BAD_REQUEST.value(), "Verifique los datos ingresados");
 			} else {
-
-				if (repetirfecha(feriado.getFecha(), feriado.getAmbito().getId())) {
+				if ( repetirfecha(feriado)) {
 					feriadorepository.save(feriado);
 					return new RestResponse(HttpStatus.OK.value(),
 							"Se ha registrado correctamente los datos del ámbito");
@@ -584,14 +709,41 @@ public class FeriadoPermanenteService implements IFeriadoService {
 				}
 			}
 		} catch (NullPointerException e) {
-			return new RestResponse(HttpStatus.BAD_REQUEST.value(), "Verifique los datos ingresadosssss");
+			return new RestResponse(HttpStatus.BAD_REQUEST.value(), "Verifique los datos ingresadosssssa	");
 		}
 	}
 
 	@Override
-	public Iterable<Feriado> listarferiados() {
+	public Iterable<modelFeriado> listarferiados() {
 		Iterable<Feriado> feriados = feriadorepository.findAll();
-		return feriados;
+		List<modelFeriado> listadoferiados = convertir(feriados);
+		return listadoferiados;
 	}
+	
+	public List<modelFeriado> convertir(Iterable<Feriado> feriados){
+		List<modelFeriado> feriadoss =new ArrayList<>();
+		SimpleDateFormat formato = new SimpleDateFormat("dd-MM");		
+		for(Feriado feriado : feriados) {
+			modelFeriado modelferiado = new modelFeriado();
+			modelferiado.setId(feriado.getId());
+			modelferiado.setAmbito(feriado.getAmbito());
+			if(feriado.getPeriodo()==1) {
+				modelferiado.setFecha( formato.format(feriado.getFecha()));
+			}else{
+				modelferiado.setFecha( dateFormat.format(feriado.getFecha()));
+			}
+			modelferiado.setPeriodo(feriado.getPeriodo());
+			modelferiado.setNombre(feriado.getNombre());
+			feriadoss.add(modelferiado);
+		}
+		return feriadoss;
+		
+	}
+
+	@Override
+	public Iterable<Date> listarfechas() {
+		return feriadorepository.findporAmbito(1L);
+	}
+
 
 }
