@@ -51,10 +51,11 @@ public class FeriadoPermanenteController{
 	}
 	
 	@PostMapping
-	public RestResponse guardarambito(@RequestBody String feriado)
+	public RestResponse guardarferiado(@RequestBody String feriado)
 			throws JsonParseException, JsonMappingException, IOException, ParseException {
 		return feriados.guardarrferiado(feriado);
 	}
+	
 	@GetMapping("/fechas")	
 	public Iterable<Date> listarfecha(){
 		return feriados.listarfechas();

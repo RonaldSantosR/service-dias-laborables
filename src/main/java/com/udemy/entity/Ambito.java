@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -35,9 +36,11 @@ public class Ambito implements Serializable{
 	@OneToMany(fetch=FetchType.EAGER , cascade = CascadeType.PERSIST)
 	@JoinColumn(name="ambito_id")
 	@JsonIgnore
-	private Set<DiaHora> diaLaborable;
+	private Set<DiaHora> diasLaborables;
 	
-	
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="ambito")
+	@JsonIgnore
+	private Set<SubAmbito> subAmbito;
 	
 	//diaLaborable
 
@@ -50,10 +53,13 @@ public class Ambito implements Serializable{
 	*/
 	//
 	
-	@ManyToMany(mappedBy = "Ambito")
+	@ManyToMany(mappedBy = "ambitos")
 	@JsonIgnore
 	private Set<Feriado> feriado;
 
+	
+	
+	
 
 	/*
 	public Ambito() {
@@ -81,9 +87,20 @@ public class Ambito implements Serializable{
 
 
 
-	public Set<DiaHora> getDiaLaborable() {
-		return diaLaborable;
+	public Set<SubAmbito> getSubAmbito() {
+		return subAmbito;
 	}
+
+
+
+
+	public void setSubAmbito(Set<SubAmbito> subAmbito) {
+		this.subAmbito = subAmbito;
+	}
+
+
+
+
 
 
 
@@ -102,12 +119,23 @@ public class Ambito implements Serializable{
 
 
 
-	public void setDiaLaborable(Set<DiaHora> diaLaborable) {
-		this.diaLaborable = diaLaborable;
+
+
+public Set<DiaHora> getDiasLaborables() {
+		return diasLaborables;
 	}
 
 
-/*
+
+
+	public void setDiasLaborables(Set<DiaHora> diasLaborables) {
+		this.diasLaborables = diasLaborables;
+	}
+
+
+
+
+	/*
 	public Set<DiaHora> getDiasHora() {
 		return diaLaborable;
 	}

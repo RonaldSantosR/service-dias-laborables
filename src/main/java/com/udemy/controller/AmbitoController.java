@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -25,12 +26,14 @@ import com.udemy.entity.Ambito;
 import com.udemy.entity.Dia;
 import com.udemy.entity.DiaHora;
 import com.udemy.entity.Feriado;
+import com.udemy.entity.SubAmbito;
 import com.udemy.model.modelAmbito;
 import com.udemy.model.modelFeriado;
 import com.udemy.service.interfaces.IAmbitoService;
 import com.udemy.service.interfaces.IDiaService;
 import com.udemy.service.interfaces.IFeriadoSer;
 import com.udemy.service.interfaces.IFeriadoService;
+import com.udemy.service.interfaces.ISubAmbitoService;
 import com.udemy.util.RestResponse;
 
 @RestController
@@ -53,6 +56,9 @@ public class AmbitoController {
 	private IAmbitoService ambitoservice;
 
 	@Autowired
+	ISubAmbitoService subambitoService;
+	
+	@Autowired
 	private IDiaService diaservice;
 
 	@Autowired
@@ -69,6 +75,11 @@ public class AmbitoController {
 	public RestResponse guardarambito(@RequestBody String ambito)
 			throws JsonParseException, JsonMappingException, IOException, ParseException {
 		return ambitoservice.Registrar(ambito);
+	}
+	
+	@GetMapping("/{id}/subambitos")
+	public ResponseEntity<Iterable<SubAmbito>> listarSubAmbitosActivosByAmbitoId(@PathVariable Long id){
+		return new ResponseEntity<Iterable<SubAmbito>>(subambitoService.listarSubAmbitosActivosByAmbitoId(id) , HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")

@@ -61,6 +61,7 @@ public class AmbitoService implements IAmbitoService {
 	private static final Log Logger = LogFactory.getLog(AmbitoService.class);
 	
 
+
 	
 	@Override
 	public RestResponse Registrar(String ambitoss)
@@ -73,7 +74,7 @@ public class AmbitoService implements IAmbitoService {
 		try {
 			modelambito = this.mapper.readValue(ambitoss, modelAmbito.class);
 	
-			for (modelDiaHora diahora : modelambito.getDiaLaborable()) {
+			for (modelDiaHora diahora : modelambito.getDiasLaborables()) {
 				LocalTime Inicio = null;
 				LocalTime Fin = null;
 				try {
@@ -107,12 +108,12 @@ public class AmbitoService implements IAmbitoService {
 			DiaHora diahora = new DiaHora();
 
 			ambitos.setNombre(modelambito.getNombre());
-			for (modelDiaHora model : modelambito.getDiaLaborable()) {
+			for (modelDiaHora model : modelambito.getDiasLaborables()) {
 				diahora = converterdiahora(model);
 				sets.add(diahora);
 
 			}
-			ambitos.setDiaLaborable(sets);
+			ambitos.setDiasLaborables(sets);
 			//setDiasHora(sets);
 
 			ambitorepository.save(ambitos);
@@ -169,7 +170,7 @@ public class AmbitoService implements IAmbitoService {
 			modelambito = this.mapper.readValue(ambito, modelAmbito.class);
 
 			Logger.info("ModelAmbito nombre :" + modelambito.getNombre());
-			for (modelDiaHora diahora : modelambito.getDiaLaborable()) {
+			for (modelDiaHora diahora : modelambito.getDiasLaborables()) {
 				Logger.info("ModelAmbito Inicio :" + diahora.getInicio());
 				Logger.info("ModelAmbito Fin :" + diahora.getFin());
 				LocalTime Inicio = null;
@@ -209,7 +210,7 @@ public class AmbitoService implements IAmbitoService {
 			
 			for(DiaHora diadiahora : listadiashora) {
 
-			for (modelDiaHora model : modelambito.getDiaLaborable()) {
+			for (modelDiaHora model : modelambito.getDiasLaborables()) {
 				diahora = converterdiahora(model);
 				diahora.setAmbito(ambitoid);
 				diahorarepository.save(diahora);				
@@ -231,7 +232,7 @@ public class AmbitoService implements IAmbitoService {
 		if (ambito.getNombre().equals("")) {
 			constante = false;
 		}
-		for (modelDiaHora diahora : ambito.getDiaLaborable()) {
+		for (modelDiaHora diahora : ambito.getDiasLaborables()) {
 
 			modelDia dia = diahora.getDia();
 			if (dia.getId() < 0) {
@@ -287,13 +288,13 @@ public class AmbitoService implements IAmbitoService {
 			modelambito.setNombre(ambito.getNombre());
 			Logger.info("ddasads " + modelambito.getId());			
 			Logger.info("ddasads " + modelambito.getNombre());
-			for (DiaHora diahora : ambito.getDiaLaborable()) {
+			for (DiaHora diahora : ambito.getDiasLaborables()) {
 				modelDiaHora modeldia = new modelDiaHora();								
 				modeldia = convertirdiahoras(diahora);
 				Logger.info("ddasads " + modeldia.getId());
 				sets.add(modeldia);
 			}
-			modelambito.setDiaLaborable(sets);		
+			modelambito.setDiasLaborables(sets);		
 			modelAmbitos.add(modelambito);
 		}
 
