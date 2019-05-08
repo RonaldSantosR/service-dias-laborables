@@ -23,8 +23,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
-
-import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -37,7 +35,7 @@ public class Feriado implements Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="feriado_id")
-	private long id;
+	private Long id;
 	
 	@JsonFormat
 	(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy", timezone="America/Lima") 
@@ -47,7 +45,7 @@ public class Feriado implements Serializable{
 	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinTable(name="feriado_ambito", joinColumns = { @JoinColumn(name = "feriado_id") },
     inverseJoinColumns = { @JoinColumn(name = "ambito_id") })
-	private Set<Ambito> Ambito;
+	private Set<Ambito> ambitos;
 	
 	public String getNombre() {
 		return nombre;
@@ -60,6 +58,7 @@ public class Feriado implements Serializable{
 
 	private String nombre;
 	
+	/*
 	private Long periodo;
 	
 	
@@ -72,7 +71,14 @@ public class Feriado implements Serializable{
 	public void setPeriodo(Long periodo) {
 		this.periodo = periodo;
 	}
-
+	*/
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="tipo_periodo_id")
+	private TipoPeriodo tipoPeriodo;
+	
+	
+	
 //
 //	public Ambito getAmbito() {
 //		return ambito;
@@ -86,12 +92,22 @@ public class Feriado implements Serializable{
 //	}
 
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
 
-	public void setId(long id) {
+	public TipoPeriodo getTipoPeriodo() {
+		return tipoPeriodo;
+	}
+
+
+	public void setTipoPeriodo(TipoPeriodo tipoPeriodo) {
+		this.tipoPeriodo = tipoPeriodo;
+	}
+
+
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -105,15 +121,13 @@ public class Feriado implements Serializable{
 		this.fecha = fecha;
 	}
 
-	
-
-	public Set<Ambito> getAmbito() {
-		return Ambito;
+	public Set<Ambito> getAmbitos() {
+		return ambitos;
 	}
 
 
-	public void setAmbito(Set<Ambito> ambito) {
-		Ambito = ambito;
+	public void setAmbitos(Set<Ambito> ambitos) {
+		this.ambitos = ambitos;
 	}
 
 	private static final long serialVersionUID = 1L;

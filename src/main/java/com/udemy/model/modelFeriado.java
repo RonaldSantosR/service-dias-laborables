@@ -5,25 +5,28 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.udemy.entity.Ambito;
+import com.udemy.entity.TipoPeriodo;
 
 public class modelFeriado {
 	
-	private long id;
+	private Long id;
 	
 	private String fecha;
 	
-	private Set<Ambito> Ambito;
+	private Set<Ambito> ambitos;
 	
 	private String nombre;
 	
-	private Long periodo;
+	//private Long periodo;
 	
+	private modeltipoPeriodo modeltipo;
+	/*
 	public Long getPeriodo() {
 		return periodo;
 	}
 	public void setPeriodo(Long periodo) {
 		this.periodo = periodo;
-	}
+	}*/
 	public String getNombre() {
 		return nombre;
 	}
@@ -31,25 +34,37 @@ public class modelFeriado {
 		this.nombre = nombre;
 	}
 	
-	public long getId() {
+
+
+	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
-
 	public String getFecha() {
 		return fecha;
 	}
 	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
-	public Set<Ambito> getAmbito() {
-		return Ambito;
+
+		
+	
+	public Set<Ambito> getAmbitos() {
+		return ambitos;
 	}
-	public void setAmbito(Set<Ambito> ambito) {
-		Ambito = ambito;
+	public void setAmbitos(Set<Ambito> ambitos) {
+		this.ambitos = ambitos;
 	}
+	public modeltipoPeriodo getModeltipo() {
+		return modeltipo;
+	}
+	public void setModeltipo(modeltipoPeriodo modeltipo) {
+		this.modeltipo = modeltipo;
+	}
+
+	
 
 
 
