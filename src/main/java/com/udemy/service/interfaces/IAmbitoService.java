@@ -21,6 +21,6 @@ public interface IAmbitoService {
 	Iterable<Ambito> ListarAmbitos() throws JsonProcessingException;
 	Iterable<DiaHora> listarhoras(Long id);
 	List<modelAmbito> ListarModalAmbitos();
-	Date listarFechaLimite(String fechaInicial,Long ambitoId, int dias);
+	Date listarFechaLimite(String fechaInicial,Long ambitoId, int dias) throws ParseException;
 	boolean validarDiaLaborable(Date fecha, Long ambitoId);
 }

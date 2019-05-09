@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -26,12 +27,14 @@ import com.udemy.entity.Ambito;
 import com.udemy.entity.Dia;
 import com.udemy.entity.DiaHora;
 import com.udemy.entity.Feriado;
+import com.udemy.entity.SubAmbito;
 import com.udemy.model.modelAmbito;
 import com.udemy.model.modelFeriado;
 import com.udemy.service.interfaces.IAmbitoService;
 import com.udemy.service.interfaces.IDiaService;
 import com.udemy.service.interfaces.IFeriadoSer;
 import com.udemy.service.interfaces.IFeriadoService;
+import com.udemy.service.interfaces.ISubAmbitoService;
 import com.udemy.util.RestResponse;
 
 @RestController
@@ -54,6 +57,9 @@ public class AmbitoController {
 	private IAmbitoService ambitoservice;
 
 	@Autowired
+	ISubAmbitoService subambitoService;
+	
+	@Autowired
 	private IDiaService diaservice;
 
 	@Autowired
@@ -66,10 +72,17 @@ public class AmbitoController {
 	@Autowired
 	private IFeriadoSer feriado;
 
+	
+	
 	@PostMapping
 	public RestResponse guardarambito(@RequestBody String ambito)
 			throws JsonParseException, JsonMappingException, IOException, ParseException {
 		return ambitoservice.Registrar(ambito);
+	}
+	
+	@GetMapping("/{id}/subambitos")
+	public ResponseEntity<Iterable<SubAmbito>> listarSubAmbitosActivosByAmbitoId(@PathVariable Long id){
+		return new ResponseEntity<Iterable<SubAmbito>>(subambitoService.listarSubAmbitosActivosByAmbitoId(id) , HttpStatus.OK);
 	}
 
 	@PutMapping("/{id}")
@@ -112,23 +125,23 @@ public class AmbitoController {
 	
 
 	@GetMapping("/{id}/feriados")
-	public Iterable<modelFeriado> listarferiados(@PathVariable Long id)
+	public ResponseEntity<Iterable<modelFeriado>> listarferiados(@PathVariable Long id)
 			throws JsonParseException, JsonMappingException, IOException, ParseException {
-			return feriados2.listarferiados(id);
+			return new ResponseEntity<Iterable<modelFeriado>>(feriados2.listarferiados(id), HttpStatus.OK);
 	}	
 	
 	
 	
 	
 	@GetMapping("/modelambitos")
-	public Iterable<Ambito> MostrarAmbito() throws JsonProcessingException {
-		return this.ambitoservice.ListarAmbitos();
+	public ResponseEntity<Iterable<Ambito>> MostrarAmbito() throws JsonProcessingException {
+		return new ResponseEntity<Iterable<Ambito>>(ambitoservice.ListarAmbitos(), HttpStatus.OK);
 	}
 	
 	@GetMapping
-	public List<modelAmbito> MostrarModalAmbito()  {
+	public ResponseEntity<List<modelAmbito>> MostrarModalAmbito()  {
 		Logger.info("ENTRO CONTROLLER");
-		return this.ambitoservice.ListarModalAmbitos();
+		return new ResponseEntity<List<modelAmbito>>(ambitoservice.ListarModalAmbitos(), HttpStatus.OK);
 	}	
 
 	
@@ -282,7 +295,7 @@ public class AmbitoController {
 	}
 	
 	@GetMapping("/{id}/fechalimite")
-	public ResponseEntity<?> listarFechaLimite(@RequestParam(value = "fecha") String fecha, @PathVariable Long id, @RequestParam(value = "dia") int dia){
+	public ResponseEntity<?> listarFechaLimite(@RequestParam(value = "fecha") String fecha, @PathVariable Long id, @RequestParam(value = "dia") int dia) throws ParseException{
 		Date fechalimite = 	ambitoservice.listarFechaLimite(fecha, id, dia);
 		return new ResponseEntity<Date>(fechalimite, HttpStatus.OK);
 	}

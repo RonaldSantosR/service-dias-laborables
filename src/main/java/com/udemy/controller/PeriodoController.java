@@ -1,6 +1,4 @@
 package com.udemy.controller;
-import com.udemy.entity.Dia;
-import com.udemy.entity.TipoPeriodo;
 
 import java.util.List;
 
@@ -10,19 +8,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.udemy.service.classes.DiaService;
+import com.udemy.entity.Dia;
+import com.udemy.entity.TipoPeriodo;
+import com.udemy.service.interfaces.IPeriodoService;
 
 @RestController
-@RequestMapping("/dias")
-public class DiaController {
+@RequestMapping("/periodos")
+public class PeriodoController {
 	
 	@Autowired
-	private DiaService diaservice;
+	IPeriodoService periodo;
 	
 	@GetMapping
-	public ResponseEntity<List<Dia>> MostrarDia(){
-		return new ResponseEntity<List<Dia>>(diaservice.findall(),HttpStatus.OK);
+	//ResponseEntity<Iterable<Ambito>>
+	public ResponseEntity<Iterable<TipoPeriodo>> Mostrarperiodos(){
+		return new ResponseEntity<Iterable<TipoPeriodo>> (periodo.listar(), HttpStatus.OK);
 	}
+	
 	
 }
