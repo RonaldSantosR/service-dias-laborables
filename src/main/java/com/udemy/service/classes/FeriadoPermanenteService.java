@@ -399,6 +399,13 @@ public class FeriadoPermanenteService implements IFeriadoService {
 			} catch (Exception e) {
 				return new RestResponse(HttpStatus.BAD_REQUEST.value(), "Verifique los datos ingresadoss");
 			}
+			
+			Feriado feriadoss = feriadorepository.findbyNombre(modelferiados.getNombre());
+			
+			if(feriadoss!=null) {
+				return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(), "El nombre ya se encuentra registrado");
+			}
+			
 			try {
 				mapper.reader(DeserializationFeature.FAIL_ON_READING_DUP_TREE_KEY).readTree(feriado);
 			} catch (JsonMappingException e) {
