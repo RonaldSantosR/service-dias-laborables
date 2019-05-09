@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,6 +24,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -56,6 +58,9 @@ public class AmbitoService implements IAmbitoService {
 	private DiahoraRepository diahorarepository;
 	@Autowired
 	private FeriadoRepository feriados;
+	@Autowired
+	private DiaRepository diarepository;
+	
 	List<DiaHora> diah;
 	protected ObjectMapper mapper;
 	private static final Log Logger = LogFactory.getLog(AmbitoService.class);
@@ -328,7 +333,50 @@ public class AmbitoService implements IAmbitoService {
 		modeldia.setNombre(dia.getNombre());
 		return modeldia;
 	}
+
+	@Override
+	public Date listarFechaLimite(String fechaInicial, Long ambitoId, int dias) {
+		SimpleDateFormat dt = new SimpleDateFormat("dd-MM-yyyy");
+		Date dateI= null;
+		try {
+			dateI = dt.parse(fechaInicial);
+		} catch (Exception e) {
+			return null;
+		}
+			
+		int i=0; //dias laborables
+		int j=0; //dias calendarios
+		Calendar calendarCalc = Calendar.getInstance();
+		while(i<dias) {
+			j++;
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(dateI);
+			calendar.add(Calendar.DATE, j);
+			Date fec = calendar.getTime();
+			if(validarDiaLaborable(fec,ambitoId)){
+				i++;
+			}
+			calendarCalc.setTime(calendar.getTime());
+		}
+		return calendarCalc.getTime();
+		
+	}
+
+	@Override
+	public boolean validarDiaLaborable (Date fecha, Long ambitoId) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(fecha);
+		String dia = null;
+		boolean rpta=false;
+		dia = String.valueOf(calendar.get(Calendar.DAY_OF_WEEK));
+		Feriado existeFeriado = feriados.esferiado(fecha,ambitoId);
+		if(existeFeriado!=null) {
+			return rpta;
+		}
+		if(diahorarepository.esdialaborable(Long.valueOf(dia), ambitoId)){
+			rpta=true;
+		}
+		return rpta;
+	}
 	
-
-
 }
