@@ -188,7 +188,7 @@ public class AmbitoService implements IAmbitoService {
 				}
 
 				if (diahora.getInicio().compareTo(diahora.getFin()) >= 0) {
-					return new RestResponse(HttpStatus.BAD_REQUEST.value(), MENSAJE_VERIFICAR);
+					return new RestResponse(HttpStatus.BAD_REQUEST.value(), "La hora inicial no puede ser mayor a la hora final");
 				}
 
 			}

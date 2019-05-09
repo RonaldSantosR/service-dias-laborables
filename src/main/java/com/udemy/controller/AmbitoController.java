@@ -86,9 +86,14 @@ public class AmbitoController {
 	}
 
 	@PutMapping("/{id}")
-	public RestResponse actualizar(@PathVariable Long id, @RequestBody String ambito)
+	public ResponseEntity<RestResponse> actualizar(@PathVariable Long id, @RequestBody String ambito)
 			throws JsonParseException, JsonMappingException, IOException, ParseException {
-		return ambitoservice.Actualizar(ambito, id);
+		
+		RestResponse response =	ambitoservice.Actualizar(ambito, id);
+		if(response.getResponsecode()==HttpStatus.BAD_REQUEST.value()) {
+			return new ResponseEntity<RestResponse>(response,HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<RestResponse>(response,HttpStatus.OK);
 	}
 	
 	@PutMapping()
