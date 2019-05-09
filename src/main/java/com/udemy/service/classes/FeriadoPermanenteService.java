@@ -393,10 +393,10 @@ public class FeriadoPermanenteService implements IFeriadoService {
 			modelFeriado modelferiados;
 			try {
 				Logger.info("ENTRO A SERVICE3");
+				Logger.info("ENTRO A SERVICE+");
 
 				modelferiados = this.mapper.readValue(feriado, modelFeriado.class);
 			} catch (Exception e) {
-				
 				return new RestResponse(HttpStatus.BAD_REQUEST.value(), "Verifique los datos ingresadoss");
 			}
 			try {
