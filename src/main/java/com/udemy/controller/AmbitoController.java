@@ -71,6 +71,8 @@ public class AmbitoController {
 	@Autowired
 	private IFeriadoSer feriado;
 
+	
+	
 	@PostMapping
 	public RestResponse guardarambito(@RequestBody String ambito)
 			throws JsonParseException, JsonMappingException, IOException, ParseException {
@@ -122,23 +124,23 @@ public class AmbitoController {
 	
 
 	@GetMapping("/{id}/feriados")
-	public Iterable<modelFeriado> listarferiados(@PathVariable Long id)
+	public ResponseEntity<Iterable<modelFeriado>> listarferiados(@PathVariable Long id)
 			throws JsonParseException, JsonMappingException, IOException, ParseException {
-			return feriados2.listarferiados(id);
+			return new ResponseEntity<Iterable<modelFeriado>>(feriados2.listarferiados(id), HttpStatus.OK);
 	}	
 	
 	
 	
 	
 	@GetMapping("/modelambitos")
-	public Iterable<Ambito> MostrarAmbito() throws JsonProcessingException {
-		return this.ambitoservice.ListarAmbitos();
+	public ResponseEntity<Iterable<Ambito>> MostrarAmbito() throws JsonProcessingException {
+		return new ResponseEntity<Iterable<Ambito>>(ambitoservice.ListarAmbitos(), HttpStatus.OK);
 	}
 	
 	@GetMapping
-	public List<modelAmbito> MostrarModalAmbito()  {
+	public ResponseEntity<List<modelAmbito>> MostrarModalAmbito()  {
 		Logger.info("ENTRO CONTROLLER");
-		return this.ambitoservice.ListarModalAmbitos();
+		return new ResponseEntity<List<modelAmbito>>(ambitoservice.ListarModalAmbitos(), HttpStatus.OK);
 	}	
 
 	

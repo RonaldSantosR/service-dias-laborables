@@ -19,7 +19,7 @@ public class modelFeriado {
 	
 	//private Long periodo;
 	
-	private modeltipoPeriodo modeltipo;
+	private modeltipoPeriodo tipoperiodo;
 	/*
 	public Long getPeriodo() {
 		return periodo;
@@ -57,13 +57,14 @@ public class modelFeriado {
 	public void setAmbitos(Set<Ambito> ambitos) {
 		this.ambitos = ambitos;
 	}
-	public modeltipoPeriodo getModeltipo() {
-		return modeltipo;
+	public modeltipoPeriodo getTipoperiodo() {
+		return tipoperiodo;
 	}
-	public void setModeltipo(modeltipoPeriodo modeltipo) {
-		this.modeltipo = modeltipo;
+	public void setTipoperiodo(modeltipoPeriodo tipoperiodo) {
+		this.tipoperiodo = tipoperiodo;
 	}
 
+	
 	
 
 

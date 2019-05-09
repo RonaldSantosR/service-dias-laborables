@@ -1,9 +1,12 @@
 package com.udemy.controller;
 import com.udemy.entity.Dia;
+import com.udemy.entity.TipoPeriodo;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,8 +21,8 @@ public class DiaController {
 	private DiaService diaservice;
 	
 	@GetMapping
-	public List<Dia> MostrarDia(){
-		return this.diaservice.findall();
+	public ResponseEntity<List<Dia>> MostrarDia(){
+		return new ResponseEntity<List<Dia>>(diaservice.findall(),HttpStatus.OK);
 	}
 	
 }
