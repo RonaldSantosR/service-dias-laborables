@@ -36,7 +36,6 @@ public class SubAmbitoController {
 		try {
 			subambitoBD = mapper.readValue(subambito, SubAmbito.class);
 			subambitoBD.setActivo(true);
-			
 			return subambitoService.guardar(subambitoBD);
 		} catch (Exception e) {
 			return new RestResponse(HttpStatus.BAD_REQUEST.value(), "NOMBRE REPETIDO");

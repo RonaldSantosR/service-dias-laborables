@@ -161,7 +161,7 @@ public class FeriadoPermanenteService implements IFeriadoService {
 		//per.setPeriodo(modelferiados.getPeriodo());
 		Logger.info("ENTRO A SERVICE6");
 
-		per.setTipoPeriodo(convertirtipo(modelferiados.getModeltipo()));
+		per.setTipoPeriodo(convertirtipo(modelferiados.getTipoperiodo()));
 		Logger.info("ENTRO A SERVICE69");
 		per.setId(modelferiados.getId());
 		Logger.info("ENTRO A SERVICE67");
@@ -199,7 +199,7 @@ public class FeriadoPermanenteService implements IFeriadoService {
 
 		per.setAmbitos(modelferiados.getAmbitos());
 		per.setNombre(modelferiados.getNombre());
-		per.setTipoPeriodo(convertirtipo(modelferiados.getModeltipo()));
+		per.setTipoPeriodo(convertirtipo(modelferiados.getTipoperiodo() ));
 		per.setId(modelferiados.getId());
 		Date date = dateFormat.parse(modelferiados.getFecha());
 		per.setFecha(date);
@@ -313,7 +313,13 @@ public class FeriadoPermanenteService implements IFeriadoService {
 				Logger.info("TE MUESTRA ESTO : " + pathVariablesMap.get("id"));
 				Long id = Long.parseLong(pathVariablesMap.get("id"));
 				feriado = feriadorepository.findById(id).orElse(null);
+				Logger.info("ENTRO A SERVICE");
 				
+				if(feriado==null) {
+					Logger.info("ENTRO A SERVICE");
+					return new RestResponse(HttpStatus.BAD_REQUEST.value(),
+							"El feriado No se encuentra");						
+				}
 
 				if(feriado.getTipoPeriodo().getId()==EstadoTipoPeriodo.PERIODO_AÑO) {
 					if(feriado.getFecha().compareTo(date)<0) {
@@ -321,6 +327,7 @@ public class FeriadoPermanenteService implements IFeriadoService {
 								"El feriado ingresado ya pasó");					
 					}					
 				}
+				Logger.info("ENTRO A CONTROLLER");
 
 				feriadorepository.deleteById(id);
 				return new RestResponse(HttpStatus.OK.value(), "Se ha eliminado el feriado permanente del sistema");
@@ -364,7 +371,7 @@ public class FeriadoPermanenteService implements IFeriadoService {
 			// necesito el Ambito ambito, modeloferiadopermanente feriadopermanente
 			//modelferiados.setAmbito(ambito);
 			
-			if(modelferiados.getModeltipo().getId()==EstadoTipoPeriodo.PERIODO_PERMANENTE) {
+			if(modelferiados.getTipoperiodo().getId()==EstadoTipoPeriodo.PERIODO_PERMANENTE) {
 				Logger.info("ENTRO A SERVICE3");
 				return registrarferiadopermanente(modelferiados);
 			}else {
@@ -399,7 +406,7 @@ public class FeriadoPermanenteService implements IFeriadoService {
 			}
 			Logger.info("ENTRO A SERVICE3");
 
-			if(modelferiados.getModeltipo().getId()==EstadoTipoPeriodo.PERIODO_PERMANENTE) {
+			if(modelferiados.getTipoperiodo().getId()==EstadoTipoPeriodo.PERIODO_PERMANENTE) {
 				String fecha2 = modelferiados.getFecha();
 				modelferiados.setFecha(fecha2.substring(0,5));
 				Logger.info(modelferiados.getFecha());
@@ -776,7 +783,7 @@ public class FeriadoPermanenteService implements IFeriadoService {
 				modelferiado.setFecha( dateFormat.format(feriado.getFecha()));
 			}
 			//modelferiado.setPeriodo(feriado.getTipoperiodo().getId());
-			modelferiado.setModeltipo(convertirmodeltipo(feriado.getTipoPeriodo()));
+			modelferiado.setTipoperiodo(convertirmodeltipo(feriado.getTipoPeriodo())); 
 			modelferiado.setNombre(feriado.getNombre());
 			feriadoss.add(modelferiado);
 		}
