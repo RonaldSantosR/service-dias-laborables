@@ -403,7 +403,7 @@ public class FeriadoPermanenteService implements IFeriadoService {
 			Feriado feriadoss = feriadorepository.findbyNombre(modelferiados.getNombre());
 			
 			if(feriadoss!=null) {
-				return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(), "El nombre ya se encuentra registrado");
+				return new RestResponse(HttpStatus.BAD_REQUEST.value(), "El nombre ya se encuentra registrado");
 			}
 			
 			try {
