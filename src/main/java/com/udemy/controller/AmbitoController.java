@@ -1,6 +1,7 @@
 package com.udemy.controller;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -297,4 +298,13 @@ public class AmbitoController {
 			return new ResponseEntity<Map<String, Object>>(respuesta, HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@GetMapping("/{id}/fechalimite")
+	public ResponseEntity<Map<String, Object>> listarFechaLimite(@RequestParam(value = "fecha") String fecha, @PathVariable Long id, @RequestParam(value = "dia") int dia) throws ParseException{
+		Date fechalimite = 	ambitoservice.listarFechaLimite(fecha, id, dia);
+		Map<String, Object> respuesta = new HashMap<String, Object>();
+		respuesta.put("fechaLimite", fechalimite);
+		return new ResponseEntity<Map<String, Object>>(respuesta, HttpStatus.OK);
+	}
+	
 }

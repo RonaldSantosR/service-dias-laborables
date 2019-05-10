@@ -2,6 +2,7 @@ package com.udemy.service.interfaces;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -20,5 +21,6 @@ public interface IAmbitoService {
 	Iterable<Ambito> ListarAmbitos() throws JsonProcessingException;
 	Iterable<DiaHora> listarhoras(Long id);
 	List<modelAmbito> ListarModalAmbitos();
-	
+	Date listarFechaLimite(String fechaInicial,Long ambitoId, int dias) throws ParseException;
+	boolean validarDiaLaborable(Date fecha, Long ambitoId);
 }

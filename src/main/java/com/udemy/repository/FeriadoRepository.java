@@ -44,9 +44,19 @@ public interface FeriadoRepository extends CrudRepository<Feriado, Long> {
 	@Query(value=" Select * From feriado As f where f.feriado_id in (select a.feriado_id From feriado_ambito as a where a.ambito_id=?1)", nativeQuery=true)	
 	public Iterable<Feriado> findAllByAmbitoid(Long id);
 
+
+	
+	@Query(value=" Select * From feriado As f where f.feriado_id in (select a.feriado_id From feriado_ambito as a where a.ambito_id=?2) and cast(f.fecha as date)=?1 ", nativeQuery=true)	
+	public Feriado esferiado(Date fecha, Long ambitoId);
+
+	
+//	@Query("SELECT CASE WHEN COUNT(f) > 0 THEN true ELSE false END FROM Feriado f WHERE cast(f.fecha as date)=?1 ")
+//	boolean esferiado(Date fecha);
+
 	@Query(value=" Select * From feriado As f where f.feriado_id in (select a.feriado_id From feriado_ambito as a where a.ambito_id=?1) and f.tipo_periodo_id in (select tf.tipo_periodo_id from tipo_periodo as tf where tf.tipo_periodo_id=2) and cast(f.fecha as date) BETWEEN cast(?2 as date) AND cast(?3 as date)", nativeQuery=true)	
-	Iterable<Feriado> findAllByAmbitoidentrefechasaño(long id ,Date fecha1,Date fecha2);
+	Iterable<Feriado> findAllByAmbitoidentrefechasaño(long id ,Date fecha1,Date fecha2);	
 	
 	@Query("From Feriado f where f.nombre=?1")
 	Feriado findbyNombre(String nombre);	
+
 }
