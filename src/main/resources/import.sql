@@ -22,8 +22,8 @@ INSERT [dbo].[Dia_Hora] ([inicio],[fin],[dia_id],[Ambito_id],[activo]) VALUES ('
 INSERT [dbo].[Dia_Hora] ([inicio],[fin],[dia_id],[Ambito_id],[activo]) VALUES ('08:00:00.000','17:00:00.000',3,1,1)
 INSERT [dbo].[Dia_Hora] ([inicio],[fin],[dia_id],[Ambito_id],[activo]) VALUES ('08:00:00.000','17:00:00.000',4,1,1)
 INSERT [dbo].[Dia_Hora] ([inicio],[fin],[dia_id],[Ambito_id],[activo]) VALUES ('08:00:00.000','17:00:00.000',5,1,1)
-INSERT [dbo].[Dia_Hora] ([inicio],[fin],[dia_id],[Ambito_id],[activo]) VALUES ('08:00:00.000','17:00:00.000',6,1,1)
-INSERT [dbo].[Dia_Hora] ([inicio],[fin],[dia_id],[Ambito_id],[activo]) VALUES ('08:00:00.000','17:00:00.000',7,1,1)
+INSERT [dbo].[Dia_Hora] ([inicio],[fin],[dia_id],[Ambito_id],[activo]) VALUES ('08:00:00.000','17:00:00.000',6,1,0)
+INSERT [dbo].[Dia_Hora] ([inicio],[fin],[dia_id],[Ambito_id],[activo]) VALUES ('08:00:00.000','17:00:00.000',7,1,0)
 
 
 INSERT [dbo].[Dia_Hora] ([inicio],[fin],[dia_id],[Ambito_id],[activo]) VALUES ('08:00:00.000','17:00:00.000',1,2,1)
@@ -45,7 +45,7 @@ INSERT INTO [dbo].[Feriado] ([fecha],[nombre],[tipo_periodo_id]) VALUES ('05-02-
 INSERT INTO [dbo].[Feriado] ([fecha],[nombre],[tipo_periodo_id]) VALUES ('12-02-1970','combate',1)
 INSERT INTO [dbo].[Feriado] ([fecha],[nombre],[tipo_periodo_id]) VALUES ('19-02-2019','halloween',2)
 
-INSERT INTO [dbo].[Feriado] ([fecha],[nombre],[tipo_periodo_id]) VALUES ('05-11-2019','sdsd',1)
+INSERT INTO [dbo].[Feriado] ([fecha],[nombre],[tipo_periodo_id]) VALUES ('11-05-2019','Combate de Angamos',1)
 
 INSERT INTO [dbo].[feriado_ambito]([feriado_id],[ambito_id]) VALUES (1,1);
 INSERT INTO [dbo].[feriado_ambito]([feriado_id],[ambito_id]) VALUES (2,1);

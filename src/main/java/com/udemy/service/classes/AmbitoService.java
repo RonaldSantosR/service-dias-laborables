@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
@@ -337,8 +338,7 @@ public class AmbitoService implements IAmbitoService {
 
 	@Override
 	public Date listarFechaLimite(String fechaInicial, Long ambitoId, int dias) throws ParseException {
-		
-		SimpleDateFormat  dt = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat  dt = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
 		Date dateI= null;
 		try {
 			dateI = dt.parse(fechaInicial);

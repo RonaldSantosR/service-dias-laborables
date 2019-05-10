@@ -300,9 +300,11 @@ public class AmbitoController {
 	}
 	
 	@GetMapping("/{id}/fechalimite")
-	public ResponseEntity<?> listarFechaLimite(@RequestParam(value = "fecha") String fecha, @PathVariable Long id, @RequestParam(value = "dia") int dia) throws ParseException{
+	public ResponseEntity<Map<String, Object>> listarFechaLimite(@RequestParam(value = "fecha") String fecha, @PathVariable Long id, @RequestParam(value = "dia") int dia) throws ParseException{
 		Date fechalimite = 	ambitoservice.listarFechaLimite(fecha, id, dia);
-		return new ResponseEntity<Date>(fechalimite, HttpStatus.OK);
+		Map<String, Object> respuesta = new HashMap<String, Object>();
+		respuesta.put("fechaLimite", fechalimite);
+		return new ResponseEntity<Map<String, Object>>(respuesta, HttpStatus.OK);
 	}
 	
 }
