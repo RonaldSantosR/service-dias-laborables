@@ -12,5 +12,8 @@ public interface ISubAmbitoDao extends CrudRepository<SubAmbito, Long>{
 
 	@Query("FROM SubAmbito sa WHERE sa.ambito.id=?1")
 	public Iterable<SubAmbito> listarSubAmbitoByAmbitoId(Long id);
+
+	@Query("FROM SubAmbito sa WHERE sa.nombre=?1")	
+	public SubAmbito findByNombre(String nombre);
 	
 }

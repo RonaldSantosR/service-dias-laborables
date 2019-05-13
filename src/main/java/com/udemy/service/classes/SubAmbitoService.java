@@ -38,16 +38,12 @@ public class SubAmbitoService implements ISubAmbitoService {
 
 	@Override
 	public RestResponse guardar(SubAmbito subambito) {
+		
+		//SubAmbito subambit = subambitoDao.findByNombre(subambito.getNombre());
+		
 		if(subambito.getNombre()!=null) {
-			try {
 				subambitoDao.save(subambito);
 					return new RestResponse(HttpStatus.OK.value(), "REGISTRO CORRECTO");
-			}catch( javax.persistence.PersistenceException  ex){
-				if(ex.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
-					return new RestResponse(HttpStatus.BAD_REQUEST.value(), "DOBLE INGRESO DE NOMBRE");
-				}
-
-			}
 		}
 		return null;
 	}
@@ -58,6 +54,22 @@ public class SubAmbitoService implements ISubAmbitoService {
 		List<SubAmbito> subambitolst = StreamSupport.stream(subambitos.spliterator(), false).collect(Collectors.toList());
 		subambitolst.removeIf(subambito -> !subambito.isActivo());
 		return subambitolst;
+	}
+
+	@Override
+	public RestResponse actualizar(SubAmbito subambito) {
+		
+		SubAmbito subambit = subambitoDao.findByNombre(subambito.getNombre());
+		
+		if(subambit!=null) {
+			return new RestResponse(HttpStatus.BAD_REQUEST.value(), "EL  NOMBRE YA EXISTE");
+		}
+		
+		if(subambito.getNombre()!=null) {
+			subambitoDao.save(subambito);
+				return new RestResponse(HttpStatus.OK.value(), "REGISTRO CORRECTO");
+		}
+	return null;
 	}
 
 }

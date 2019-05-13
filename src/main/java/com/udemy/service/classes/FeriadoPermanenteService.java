@@ -480,7 +480,7 @@ public class FeriadoPermanenteService implements IFeriadoService {
 						} else {
 							Logger.info("ENTRO A REGISTRAR8");
 
-							return new RestResponse(HttpStatus.BAD_REQUEST.value(), MENSAJE_VERIFICAR);
+							return new RestResponse(HttpStatus.BAD_REQUEST.value(), "INGRESE UNA FECHA SUPERIOR A LA ACTUAL");
 						}
 						// DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 						// Logger.info("Año Completo " + date);

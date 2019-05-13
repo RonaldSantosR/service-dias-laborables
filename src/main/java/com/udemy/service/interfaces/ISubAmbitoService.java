@@ -10,6 +10,7 @@ public interface ISubAmbitoService {
 	SubAmbito listarById(Long id);
 	RestResponse guardar(SubAmbito subambito);
 	public Iterable<SubAmbito> listarSubAmbitosActivosByAmbitoId(Long id);
+	RestResponse actualizar(SubAmbito subambito);
 
 
 }
