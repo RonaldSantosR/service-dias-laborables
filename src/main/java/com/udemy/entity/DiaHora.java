@@ -49,19 +49,18 @@ public class DiaHora implements Serializable {
 	
 	
 	@ManyToOne(fetch=FetchType.LAZY)	
-	@JoinColumn(name="ambito_id")
+	@JoinColumn(name="region_id")
 	@JsonIgnore
-	private Ambito ambito;
+	private Region region;
 	
 	private int activo;
 
-	
-	public Ambito getAmbito() {
-		return ambito;
+	public Region getRegion() {
+		return region;
 	}
 
-	public void setAmbito(Ambito ambito) {
-		this.ambito = ambito;
+	public void setRegion(Region region) {
+		this.region = region;
 	}
 
 	public long getId() {

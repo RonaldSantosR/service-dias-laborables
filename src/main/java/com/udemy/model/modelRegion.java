@@ -5,7 +5,7 @@ import java.util.Set;
 import com.udemy.entity.DiaHora;
 import com.udemy.entity.Feriado;
 
-public class modelAmbito {
+public class modelRegion {
 	
 	private long id;
 	

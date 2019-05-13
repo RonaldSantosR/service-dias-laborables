@@ -29,15 +29,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.udemy.controller.AmbitoController;
-import com.udemy.entity.Ambito;
+import com.udemy.controller.RegionController;
+import com.udemy.entity.Region;
 import com.udemy.entity.Feriado;
 import com.udemy.entity.TipoPeriodo;
-import com.udemy.model.modelAmbito;
+import com.udemy.model.modelRegion;
 import com.udemy.model.modelFeriado;
 import com.udemy.model.modelFeriadolistar;
 import com.udemy.model.modeltipoPeriodo;
-import com.udemy.repository.AmbitoRepository;
+import com.udemy.repository.RegionRepository;
 import com.udemy.repository.FeriadoRepository;
 import com.udemy.service.interfaces.IFeriadoSer;
 
@@ -52,12 +52,12 @@ public class FeriadoService implements IFeriadoSer {
 	
 	
 	@Autowired
-	private AmbitoRepository ambitorepo;
+	private RegionRepository regionrepo;
 	
 	@Override
 	public List<Object> Listarferiados(Long id,String fecha1,String fecha2) throws ParseException {
 		
-		Ambito ambito = ambitorepo.findById(id).orElse(null); 
+		Region ambito = regionrepo .findById(id).orElse(null); 
 		
 		if(ambito==null) {
 			return null;
@@ -87,19 +87,19 @@ public class FeriadoService implements IFeriadoSer {
 		}else {
 			modelferiados.setFecha(formatoDelTexto2.format(feriados.getFecha()));		
 		}
-		modelferiados.setAmbitos(feriados.getAmbitos());
-        Set<Ambito> ambitos = new HashSet<Ambito>();		
-		for(Ambito ambito : feriados.getAmbitos()) {
+		modelferiados.setRegiones(feriados.getRegiones() );
+        Set<Region> ambitos = new HashSet<Region>();		
+		for(Region ambito : feriados.getRegiones()) {
 			ambitos.add(ambito);
 		}
-		modelferiados.setAmbitos(ambitos);
+		modelferiados.setRegiones(ambitos);
 		//modelferiados.setPeriodo(feriados.getPeriodos());
 		modelferiados.setTipoperiodo(convertirmodeltipo(feriados.getTipoPeriodo()));
 		return 	modelferiados;
 	}
 	
-	public modelAmbito converteramodel(Ambito ambito) {
-		modelAmbito modelambito = new modelAmbito();
+	public modelRegion converteramodel(Region ambito) {
+		modelRegion modelambito = new modelRegion();
 		modelambito.setId(ambito.getId());
 		modelambito.setNombre(ambito.getNombre());
 		return modelambito;
@@ -113,7 +113,7 @@ public class FeriadoService implements IFeriadoSer {
 		modelferiados.setId(feriados.getId());
 		modelferiados.setNombre(feriados.getNombre());
 		modelferiados.setFecha(formatoDelTexto.parse(feriados.getFecha()));
-		modelferiados.setAmbitos(feriados.getAmbitos());
+		modelferiados.setRegiones(feriados.getRegiones());
 		//modelferiados.setPeriodo(feriados.getPeriodos());
 		modelferiados.setTipoPeriodo(convertirtipo(feriados.getTipoperiodo()));
 		Logger.info("ENTROOOOOO-- " + feriados.getId());
@@ -161,7 +161,7 @@ public class FeriadoService implements IFeriadoSer {
 		f.setId(feriado.getId());
 		f.setNombre(feriado.getNombre());
 		f.setFecha(formatoDelTexto.format(feriado.getFecha()));
-		f.setAmbitos(feriado.getAmbitos());
+		f.setRegiones(feriado.getRegiones());
 		//f.setPeriodo(feriado.getPeriodos());
 		f.setTipoperiodo(convertirmodeltipo(feriado.getTipoPeriodo()));
 		return f;
@@ -173,7 +173,7 @@ public class FeriadoService implements IFeriadoSer {
 		f.setId(feriado.getId());
 		f.setNombre(feriado.getNombre());
 		f.setFecha(formatoDelTexto.parse(feriado.getFecha()));
-		f.setAmbitos(feriado.getAmbitos());		
+		f.setRegiones(feriado.getRegiones());		
 		//f.setPeriodo(feriado.getPeriodos());
 		f.setTipoPeriodo(convertirtipo(feriado.getTipoperiodo()));
 		Logger.info("ENTROOOOOO " +f.getFecha()+"assddasssssssssssssssssssssssssss");					
@@ -313,7 +313,7 @@ public class FeriadoService implements IFeriadoSer {
 		mo.setId(model.getId());
 		mo.setNombre(model.getNombre());
 		mo.setFecha(model.getFecha().concat("-").concat(formato2.format(dia)));
-		mo.setAmbitos(model.getAmbitos());
+		mo.setRegiones(model.getRegiones());
 		//mo.setPeriodo(model.getPeriodos());
 		mo.setTipoperiodo(model.getTipoperiodo());
 		//Logger.info("ENTROOOOOOOOOO8888"+ model.getPeriodos());		
@@ -423,7 +423,7 @@ public class FeriadoService implements IFeriadoSer {
 			f.setFecha(formatoDelTexto.format(feriado.getFecha()));
 		}
 
-		f.setAmbitos(feriado.getAmbitos());
+		f.setRegiones(feriado.getRegiones());
 
 		f.setTipoperiodo(convertirmodeltipo(feriado.getTipoPeriodo()));
 		return f;

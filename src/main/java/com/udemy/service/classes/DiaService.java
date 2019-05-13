@@ -16,11 +16,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.udemy.entity.Ambito;
+import com.udemy.entity.Region;
 import com.udemy.entity.Dia;
 import com.udemy.entity.Feriado;
 import com.udemy.model.modelFeriado;
-import com.udemy.repository.AmbitoRepository;
+import com.udemy.repository.RegionRepository;
 import com.udemy.repository.DiaRepository;
 import com.udemy.repository.FeriadoRepository;
 import com.udemy.service.interfaces.IDiaService;
@@ -33,7 +33,7 @@ public class DiaService implements IDiaService {
 	private DiaRepository diaRepository;
 
 	@Autowired
-	private AmbitoRepository ambitorepo;
+	private RegionRepository regionrepo;
 
 	@Autowired
 	private FeriadoRepository feriadorepo;
@@ -54,7 +54,7 @@ public class DiaService implements IDiaService {
 	@Override
 	public HashMap<Integer,String> listardiaslaborales(Long id, String fecha1, String fecha2) throws ParseException {
 
-		Ambito ambito = ambitorepo.findById(id).orElse(null);
+		Region ambito = regionrepo.findById(id).orElse(null);
 
 		if (ambito == null) {
 			return null;
@@ -190,19 +190,6 @@ public class DiaService implements IDiaService {
 		return mapa;
 	}
 
-	
-	/*
-	 * public FeriadoPermanente converterferiadosentity(modelferiadopermanente
-	 * feriados) throws ParseException{ FeriadoPermanente modelferiados=new
-	 * FeriadoPermanente(); SimpleDateFormat formatoDelTexto = new
-	 * SimpleDateFormat("dd-MM-yyyy");
-	 * 
-	 * modelferiados.setId(feriados.getId());
-	 * modelferiados.setNombre(feriados.getNombre());
-	 * modelferiados.setFecha(formatoDelTexto.parse(feriados.getFecha())); return
-	 * modelferiados; }
-	 */
-	 
 
 	public List<Date> getListaEntreFechas(Date fechaInicio, Date fechaFin) {
 

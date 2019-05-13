@@ -3,7 +3,7 @@ package com.udemy.model;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.udemy.entity.Ambito;
+import com.udemy.entity.Region;
 import com.udemy.entity.Dia;
 
 public class modelDiaHora {
@@ -17,7 +17,7 @@ public class modelDiaHora {
     private modelDia dia;
     
     @JsonIgnore
-	private modelAmbito ambito;
+	private modelRegion region;
 	
 	private int activo;
 	
@@ -53,12 +53,14 @@ public class modelDiaHora {
 	public void setDia(modelDia dia) {
 		this.dia = dia;
 	}
-	public modelAmbito getAmbito() {
-		return ambito;
+	public modelRegion getRegion() {
+		return region;
 	}
-	public void setAmbito(modelAmbito ambito) {
-		this.ambito = ambito;
+	public void setRegion(modelRegion region) {
+		this.region = region;
 	}
+
+	
 	
 
 
