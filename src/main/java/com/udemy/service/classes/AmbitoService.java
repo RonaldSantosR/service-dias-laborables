@@ -64,18 +64,28 @@ public class AmbitoService implements IAmbitoService {
 
 	@Override
 	public RestResponse actualizar(Ambito subambito) {
-		
-		Ambito subambit = ambitoDao.findByNombre(subambito.getNombre());
-		
-		if(subambit!=null) {
-			return new RestResponse(HttpStatus.BAD_REQUEST.value(), "EL  NOMBRE YA EXISTE");
+		Ambito subambit = new Ambito();
+		if(subambito.getNombre().equals("")) {
+			return new RestResponse(HttpStatus.BAD_REQUEST.value(), "FALTA INGRESAR DATOS");
 		}
+			subambit = ambitoDao.findByNombre(subambito.getNombre());
+
+		//boolean constante=true;
 		
-		if(subambito.getNombre()!=null) {
+		if(subambit==null) {
 			ambitoDao.save(subambito);
-				return new RestResponse(HttpStatus.OK.value(), "REGISTRO CORRECTO");
+			return new RestResponse(HttpStatus.OK.value(), "REGISTRO CORRECTO");
+			
+		}else {
+			if(subambito.getId()==subambit.getId()) {
+				ambitoDao.save(subambito);
+				return new RestResponse(HttpStatus.OK.value(), "REGISTRO CORRECTO");				
+			}else {
+				return new RestResponse(HttpStatus.BAD_REQUEST.value(), "EL NOMBRE YA EXISTE");
+
+			}
 		}
-	return null;
+
 	}
 
 }
