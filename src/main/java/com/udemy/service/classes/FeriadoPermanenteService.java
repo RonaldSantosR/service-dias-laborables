@@ -23,13 +23,13 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.udemy.entity.Ambito;
+import com.udemy.entity.Region;
 import com.udemy.entity.Feriado;
 import com.udemy.entity.TipoPeriodo;
 import com.udemy.enumerator.EstadoTipoPeriodo;
 import com.udemy.model.modelFeriado;
 import com.udemy.model.modeltipoPeriodo;
-import com.udemy.repository.AmbitoRepository;
+import com.udemy.repository.RegionRepository;
 import com.udemy.repository.FeriadoRepository;
 import com.udemy.service.interfaces.IFeriadoService;
 import com.udemy.util.RestResponse;
@@ -45,7 +45,7 @@ public class FeriadoPermanenteService implements IFeriadoService {
 	@Autowired
 	private FeriadoRepository feriadorepository;
 	@Autowired
-	private AmbitoRepository ambitorepository;
+	private RegionRepository regionrepository;
 
 	@Override
 	public RestResponse registrar(String feriadopermanentes, Map<String, String> pathVariablesMap) throws IOException {
@@ -67,7 +67,7 @@ public class FeriadoPermanenteService implements IFeriadoService {
 				return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(), "Mal Formato de Json");
 			}
 
-			Ambito ambito = ambitorepository.findById(id).orElse(null);
+			Region ambito = regionrepository.findById(id).orElse(null);
 			if (ambito == null) {
 				return new RestResponse(HttpStatus.BAD_REQUEST.value(),
 						"No se ha encontrado el Id - Verifique los datos");
@@ -156,7 +156,7 @@ public class FeriadoPermanenteService implements IFeriadoService {
 		Feriado per = new Feriado();
 		Logger.info("ENTRO A SERVICE6");
 
-		per.setAmbitos(modelferiados.getAmbitos());
+		per.setRegiones(modelferiados.getRegiones() );
 		per.setNombre(modelferiados.getNombre());
 		//per.setPeriodo(modelferiados.getPeriodo());
 		Logger.info("ENTRO A SERVICE6");
@@ -197,7 +197,7 @@ public class FeriadoPermanenteService implements IFeriadoService {
 
 		Feriado per = new Feriado();
 
-		per.setAmbitos(modelferiados.getAmbitos());
+		per.setRegiones(modelferiados.getRegiones() );
 		per.setNombre(modelferiados.getNombre());
 		per.setTipoPeriodo(convertirtipo(modelferiados.getTipoperiodo() ));
 		per.setId(modelferiados.getId());
@@ -214,7 +214,7 @@ public class FeriadoPermanenteService implements IFeriadoService {
 		Logger.info("ASDADDASDA");
 		SimpleDateFormat dt = new SimpleDateFormat("dd-MM");
 		
-		for(Ambito ambito : feriado.getAmbitos()) {
+		for(Region ambito : feriado.getRegiones()) {
 						
 			fechas = feriadorepository.findporAmbito(ambito.getId());
 		
@@ -361,7 +361,7 @@ public class FeriadoPermanenteService implements IFeriadoService {
 				return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(), "Mal Formato de Json");
 			}
 
-			Ambito ambito = ambitorepository.findById(id).orElse(null);
+			Region ambito = regionrepository.findById(id).orElse(null);
 			if (ambito == null) {
 				return new RestResponse(HttpStatus.BAD_REQUEST.value(),
 						"No se ha encontrado el Id - Verifique los datos");
@@ -507,7 +507,7 @@ public class FeriadoPermanenteService implements IFeriadoService {
 		
 		Iterable<Date> fechas2 = null;
 		SimpleDateFormat dt = new SimpleDateFormat("dd-MM");				
-		for(Ambito ambito : feriadoaño.getAmbitos()) {
+		for(Region ambito : feriadoaño.getRegiones()) {
 			fechas2 = feriadorepository.findporAmbito(ambito.getId());
 		}
 		
@@ -598,7 +598,7 @@ public class FeriadoPermanenteService implements IFeriadoService {
 		Iterable<Date> fechas = null;
 		SimpleDateFormat dt = new SimpleDateFormat("dd-MM-yyyy");
 		Logger.info("++++++");
-		for(Ambito ambito : feriado.getAmbitos()) {
+		for(Region ambito : feriado.getRegiones() ) {
 			Logger.info("IDS "+ ambito.getId());
 			fechas = feriadorepository.feriadoañofindporAmbito(ambito.getId());
 		}
@@ -783,7 +783,7 @@ public class FeriadoPermanenteService implements IFeriadoService {
 		for(Feriado feriado : feriados) {
 			modelFeriado modelferiado = new modelFeriado();
 			modelferiado.setId(feriado.getId());
-			modelferiado.setAmbitos(feriado.getAmbitos());
+			modelferiado.setRegiones(feriado.getRegiones());
 			if(/*feriado.getPeriodo()==1*/   feriado.getTipoPeriodo().getId()!=EstadoTipoPeriodo.PERIODO_AÑO) {
 				modelferiado.setFecha( formato.format(feriado.getFecha()));
 			}else{

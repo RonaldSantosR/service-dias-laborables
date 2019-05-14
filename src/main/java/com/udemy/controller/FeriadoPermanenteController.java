@@ -25,7 +25,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.udemy.entity.Feriado;
 import com.udemy.model.modelFeriado;
-import com.udemy.service.classes.AmbitoService;
+import com.udemy.service.classes.RegionService;
 import com.udemy.service.classes.FeriadoPermanenteService;
 import com.udemy.service.interfaces.IFeriadoService;
 import com.udemy.util.RestResponse;

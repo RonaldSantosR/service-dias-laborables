@@ -23,7 +23,7 @@ public class FeriadoAmbito implements Serializable{
 	Feriado feriado;
     @ManyToOne
     @JoinColumn(name = "ambito_id")
-    Ambito ambito;
+    Region ambito;
 	
     
     
@@ -51,13 +51,13 @@ public class FeriadoAmbito implements Serializable{
 
 
 
-	public Ambito getAmbito() {
+	public Region getAmbito() {
 		return ambito;
 	}
 
 
 
-	public void setAmbito(Ambito ambito) {
+	public void setAmbito(Region ambito) {
 		this.ambito = ambito;
 	}
 

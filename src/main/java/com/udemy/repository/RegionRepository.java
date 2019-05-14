@@ -6,11 +6,11 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.udemy.component.examplecomponent;
-import com.udemy.entity.Ambito;
+import com.udemy.entity.Region;
 
 
 @Repository
-public interface AmbitoRepository extends CrudRepository<Ambito, Long>{
+public interface RegionRepository extends CrudRepository<Region, Long>{
 
 	
 	

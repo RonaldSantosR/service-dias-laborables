@@ -43,9 +43,9 @@ public class Feriado implements Serializable{
 	private Date fecha;
 	 	
 	@ManyToMany(fetch=FetchType.LAZY)
-	@JoinTable(name="feriado_ambito", joinColumns = { @JoinColumn(name = "feriado_id") },
-    inverseJoinColumns = { @JoinColumn(name = "ambito_id") })
-	private Set<Ambito> ambitos;
+	@JoinTable(name="feriado_region", joinColumns = { @JoinColumn(name = "feriado_id") },
+    inverseJoinColumns = { @JoinColumn(name = "region_id") })
+	private Set<Region> regiones;
 	
 	public String getNombre() {
 		return nombre;
@@ -58,39 +58,10 @@ public class Feriado implements Serializable{
 
 	private String nombre;
 	
-	/*
-	private Long periodo;
-	
-	
-	
-	public Long getPeriodo() {
-		return periodo;
-	}
 
-
-	public void setPeriodo(Long periodo) {
-		this.periodo = periodo;
-	}
-	*/
-	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="tipo_periodo_id")
 	private TipoPeriodo tipoPeriodo;
-	
-	
-	
-//
-//	public Ambito getAmbito() {
-//		return ambito;
-//	}
-//
-//
-//
-//
-//	public void setAmbito(Ambito ambito) {
-//		this.ambito = ambito;
-//	}
-
 
 	public Long getId() {
 		return id;
@@ -121,13 +92,15 @@ public class Feriado implements Serializable{
 		this.fecha = fecha;
 	}
 
-	public Set<Ambito> getAmbitos() {
-		return ambitos;
+
+
+	public Set<Region> getRegiones() {
+		return regiones;
 	}
 
 
-	public void setAmbitos(Set<Ambito> ambitos) {
-		this.ambitos = ambitos;
+	public void setRegiones(Set<Region> regiones) {
+		this.regiones = regiones;
 	}
 
 	private static final long serialVersionUID = 1L;

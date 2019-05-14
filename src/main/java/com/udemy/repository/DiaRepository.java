@@ -11,7 +11,7 @@ public interface DiaRepository extends CrudRepository<Dia, Long> {
 	
 	List<Dia> findAll();
 	
-	@Query("FROM Dia d WHERE d IN (select p.dia from DiaHora p where p.ambito.id=?1 and p.activo=1)")
+	@Query("FROM Dia d WHERE d IN (select p.dia from DiaHora p where p.region.id=?1 and p.activo=1)")
 	public Iterable<Dia> findByDiaPorAmbito(Long id);	
 	
 
