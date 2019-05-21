@@ -300,7 +300,7 @@ public class RegionController {
 	}
 	
 	@GetMapping("/{id}/fechalimite")
-	public ResponseEntity<Map<String, Object>> listarFechaLimite(@RequestParam(value = "fecha") String fecha, @PathVariable Long id, @RequestParam(value = "dia") int dia) throws ParseException{
+	public ResponseEntity<Map<String, Object>> listarFechaLimite(@RequestParam(value = "fecha") String fecha, @PathVariable Long id, @RequestParam(value = "dia") double dia) throws ParseException{
 		Date fechalimite = 	regionservice.listarFechaLimite(fecha, id, dia);
 		Map<String, Object> respuesta = new HashMap<String, Object>();
 		respuesta.put("fechaLimite", fechalimite);

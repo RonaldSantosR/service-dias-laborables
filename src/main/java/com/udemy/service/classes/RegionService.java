@@ -337,7 +337,7 @@ public class RegionService implements IRegionService {
 	}
 
 	@Override
-	public Date listarFechaLimite(String fechaInicial, Long ambitoId, int dias) throws ParseException {
+	public Date listarFechaLimite(String fechaInicial, Long ambitoId, double horas) throws ParseException {
 		SimpleDateFormat  dt = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
 		Date dateI= null;
 		try {
@@ -348,8 +348,16 @@ public class RegionService implements IRegionService {
 			
 		int i=0; //dias laborables
 		int j=0; //dias calendarios
+		String valor = String.valueOf(horas);
+		if(horas<24) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(dateI);
+			calendar.add(Calendar.HOUR_OF_DAY, Integer.parseInt(valor));
+			return calendar.getTime();
+		}
 		Calendar calendarCalc = Calendar.getInstance();
-		while(i<dias) {
+		double diasCont= horas/24;
+		while(i<diasCont) {
 			j++;
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(dateI);
@@ -368,9 +376,15 @@ public class RegionService implements IRegionService {
 	public boolean validarDiaLaborable (Date fecha, Long ambitoId) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(fecha);
-		String dia = null;
+		String diaSemana = null;
 		boolean rpta=false;
-		dia = String.valueOf(calendar.get(Calendar.DAY_OF_WEEK));
+		int dia = 0;
+		diaSemana = String.valueOf(calendar.get(Calendar.DAY_OF_WEEK));
+		if(Integer.parseInt(diaSemana)==1) {
+			dia=7;
+		}else {
+			dia= Integer.parseInt(diaSemana) - 1;
+		}
 		Feriado existeFeriado = feriados.esferiado(fecha,ambitoId);
 		if(existeFeriado!=null) {
 			return rpta;
