@@ -49,6 +49,9 @@ public interface FeriadoRepository extends CrudRepository<Feriado, Long> {
 	@Query(value=" Select * From feriado As f where f.feriado_id in (select a.feriado_id From feriado_region as a where a.region_id=?2) and cast(f.fecha as date)=?1 ", nativeQuery=true)	
 	public Feriado esferiado(Date fecha, Long ambitoId);
 
+	//select date_format(date(starttime),'%d-%m-%Y') from data where date(starttime) >= date '2012-11-02';
+//	@Query(value=" Select * From feriado As f where f.feriado_id in (select a.feriado_id From feriado_region as a where a.region_id=?2) and cast(f.fecha as date)=?1 ", nativeQuery=true)	
+//	public Feriado esferiadopermanente(Date fecha, Long ambitoId);
 	
 //	@Query("SELECT CASE WHEN COUNT(f) > 0 THEN true ELSE false END FROM Feriado f WHERE cast(f.fecha as date)=?1 ")
 //	boolean esferiado(Date fecha);

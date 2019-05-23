@@ -36,8 +36,8 @@ INSERT [dbo].[Dia_Hora] ([inicio],[fin],[dia_id],[Region_id],[activo]) VALUES ('
 
 
 
-INSERT INTO [dbo].[Feriado] ([fecha],[nombre],[tipo_periodo_id]) VALUES ('10-02-2020','navidad',2)
-INSERT INTO [dbo].[Feriado] ([fecha],[nombre],[tipo_periodo_id]) VALUES ('28-02-1970','pascuas',1)
+INSERT INTO [dbo].[Feriado] ([fecha],[nombre],[tipo_periodo_id]) VALUES ('15-05-2019','navidad',2)
+INSERT INTO [dbo].[Feriado] ([fecha],[nombre],[tipo_periodo_id]) VALUES ('16-05-1970','pascuas',1)
 
 INSERT INTO [dbo].[Feriado] ([fecha],[nombre],[tipo_periodo_id]) VALUES ('10-02-2019','san valentin',2)
 INSERT INTO [dbo].[Feriado] ([fecha],[nombre],[tipo_periodo_id]) VALUES ('05-02-1970','año nuevo',1)
