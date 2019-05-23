@@ -22,5 +22,5 @@ public interface IRegionService {
 	Iterable<DiaHora> listarhoras(Long id);
 	List<modelRegion> ListarModalAmbitos();
 	Date listarFechaLimite(String fechaInicial,Long ambitoId, double dias) throws ParseException;
-	boolean validarDiaLaborable(Date fecha, Long ambitoId);
+	boolean validarDiaLaborable(Date fecha, Long ambitoId) throws ParseException;
 }

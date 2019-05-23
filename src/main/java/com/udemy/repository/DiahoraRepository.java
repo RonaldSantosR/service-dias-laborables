@@ -19,4 +19,8 @@ public interface DiahoraRepository extends CrudRepository<DiaHora, Long> {
 	@Query("SELECT CASE WHEN COUNT(d) > 0 THEN true ELSE false END FROM DiaHora d WHERE d.dia.id=?1 AND d.region.id=?2  AND d.activo=1")
 	boolean esdialaborable(Long diaId, Long ambitoId);
 	
+	
+	@Query("SELECT fin FROM DiaHora d WHERE d.dia.id=?1 AND d.region.id=?2")
+	Date horasalida(Long diaId, Long ambitoId);	
+
 }

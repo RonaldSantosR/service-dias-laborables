@@ -1,10 +1,13 @@
 package com.udemy.controller;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -300,8 +303,8 @@ public class RegionController {
 	}
 	
 	@GetMapping("/{id}/fechalimite")
-	public ResponseEntity<Map<String, Object>> listarFechaLimite(@RequestParam(value = "fecha") String fecha, @PathVariable Long id, @RequestParam(value = "dia") double dia) throws ParseException{
-		Date fechalimite = 	regionservice.listarFechaLimite(fecha, id, dia);
+	public ResponseEntity<Map<String, Object>> listarFechaLimite(@RequestParam(value = "fecha") String fecha, @PathVariable Long id, @RequestParam(value = "hora") double hora) throws ParseException{
+		Date fechalimite = 	regionservice.listarFechaLimite(fecha, id, hora);
 		Map<String, Object> respuesta = new HashMap<String, Object>();
 		respuesta.put("fechaLimite", fechalimite);
 		return new ResponseEntity<Map<String, Object>>(respuesta, HttpStatus.OK);

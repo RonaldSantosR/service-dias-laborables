@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.TimeZone;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -338,8 +339,11 @@ public class RegionService implements IRegionService {
 
 	@Override
 	public Date listarFechaLimite(String fechaInicial, Long ambitoId, double horas) throws ParseException {
-		SimpleDateFormat  dt = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
-		Date dateI= null;
+//		SimpleDateFormat  dt = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
+		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");	
+ 		dt.setTimeZone(TimeZone.getTimeZone("America/Peru"));
+
+		Date dateI= new Date();
 		try {
 			dateI = dt.parse(fechaInicial);
 		} catch (Exception e) {
@@ -348,13 +352,48 @@ public class RegionService implements IRegionService {
 			
 		int i=0; //dias laborables
 		int j=0; //dias calendarios
-		String valor = String.valueOf(horas);
-		if(horas<24) {
+		//String valor = String.valueOf(horas);
+  		if(horas<24) {
+			String diaSemana = null;
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(dateI);
-			calendar.add(Calendar.HOUR_OF_DAY, Integer.parseInt(valor));
-			return calendar.getTime();
+			calendar.add(Calendar.HOUR_OF_DAY, (int) horas);
+			//Date utilDates= calendar.getTime();
+			diaSemana = String.valueOf(calendar.get(Calendar.DAY_OF_WEEK));
+			int dia = 0;
+			if(Integer.parseInt(diaSemana)==1) {
+				dia=7;
+			}else {
+				dia= Integer.parseInt(diaSemana) - 1;
+			}
+			Date utilDate = calendar.getTime();
+			SimpleDateFormat dthora = new SimpleDateFormat("HH:mm:ss");	
+			Date horadate=  diahorarepository.horasalida(Long.valueOf(dia) ,  ambitoId);
+			if(dthora.parse(dthora.format(horadate)).compareTo(dthora.parse(dthora.format(utilDate)))>=0 ) {
+				return utilDate;
+			}else {	
+				Date fec = calendar.getTime();
+				boolean condicion=true;
+				i++;
+				while(condicion) {
+					calendar.add(calendar.DAY_OF_YEAR, i);
+					if(validarDiaLaborable(fec,ambitoId)){
+						condicion=false;
+					}						
+					i++;
+				}
+				/*
+				diaSemana = String.valueOf(calendar.get(Calendar.DAY_OF_WEEK));
+				if(Integer.parseInt(diaSemana)==1) {
+					dia=7;
+				}else {
+					dia= Integer.parseInt(diaSemana) - 1;
+				}*/
+				
+				return calendar.getTime();			
+			}
 		}
+		
 		Calendar calendarCalc = Calendar.getInstance();
 		double diasCont= horas/24;
 		while(i<diasCont) {
@@ -373,11 +412,16 @@ public class RegionService implements IRegionService {
 	}
 
 	@Override
-	public boolean validarDiaLaborable (Date fecha, Long ambitoId) {
+	public boolean validarDiaLaborable (Date fecha, Long ambitoId) throws ParseException {
+		SimpleDateFormat formatoDeldiames = new SimpleDateFormat("dd-MM");	
+		SimpleDateFormat formatoDelaño = new SimpleDateFormat("YYYY-MM-dd");	
+
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(fecha);
 		String diaSemana = null;
 		boolean rpta=false;
+		boolean rpta2=false;
+		
 		int dia = 0;
 		diaSemana = String.valueOf(calendar.get(Calendar.DAY_OF_WEEK));
 		if(Integer.parseInt(diaSemana)==1) {
@@ -385,14 +429,33 @@ public class RegionService implements IRegionService {
 		}else {
 			dia= Integer.parseInt(diaSemana) - 1;
 		}
-		Feriado existeFeriado = feriados.esferiado(fecha,ambitoId);
-		if(existeFeriado!=null) {
-			return rpta;
+		//formatoDelaño.parse(formatoDelaño.format(fecha)) ;
+		//Feriado existeFeriado = feriados.esferiado(fecha,ambitoId);
+		Iterable<Date> fechasaño = feriados.feriadoañofindporAmbito(ambitoId);
+		for(Date feria : fechasaño){
+			if(formatoDelaño.format(fecha).equals(formatoDelaño.format(feria)) ) {
+				rpta2=true;
+			}
 		}
+		if(rpta2) {
+			return rpta;
+		}	
+		Iterable<Date> fechas= feriados.findporAmbito(ambitoId);
+		for(Date feria : fechas){
+			if(formatoDeldiames.format(fecha).equals(formatoDeldiames.format(feria)) ) {
+				rpta2=true;
+			}
+		}
+		if(rpta2) {
+			return rpta;
+		}		
+				
+		
 		if(diahorarepository.esdialaborable(Long.valueOf(dia), ambitoId)){
 			rpta=true;
 		}
 		return rpta;
 	}
+	
 	
 }
