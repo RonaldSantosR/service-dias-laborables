@@ -1,6 +1,7 @@
 package com.udemy.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -96,5 +98,9 @@ public class AmbitoController {
 
 	}
 
+	@GetMapping(params="ids")
+	public ResponseEntity<Iterable<Ambito>> listarByIds(@RequestParam List<Long> ids) {
+		return new ResponseEntity<Iterable<Ambito>>(ambitoService.listarByIds(ids), HttpStatus.OK);
+	}
 	
 }

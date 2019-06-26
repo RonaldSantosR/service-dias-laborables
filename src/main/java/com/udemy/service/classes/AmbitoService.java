@@ -88,5 +88,10 @@ public class AmbitoService implements IAmbitoService {
 
 	}
 
+	@Override
+	public Iterable<Ambito> listarByIds(List<Long> ids) {
+		return ambitoDao.findAllById(ids);
+	}
+
 }
 
