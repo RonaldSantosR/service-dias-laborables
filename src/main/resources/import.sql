@@ -64,6 +64,7 @@ INSERT [dbo].[ambito] ([ambito_id], [nombre], [activo], [Region_id]) VALUES (1, 
 INSERT [dbo].[ambito] ([ambito_id], [nombre], [activo], [Region_id]) VALUES (2, 'PROVINCIA URBANA', 1, 2)
 INSERT [dbo].[ambito] ([ambito_id], [nombre], [activo], [Region_id]) VALUES (3, 'PROVINCIA RURAL', 1, 2 )
 INSERT [dbo].[ambito] ([ambito_id], [nombre], [activo], [Region_id]) VALUES (4, 'PROVINCIA LEJANA', 1, 2 )
+INSERT [dbo].[ambito] ([ambito_id], [nombre], [activo], [Region_id]) VALUES (5, 'LIMA METROPOLITANA', 1, 1)
 SET IDENTITY_INSERT [dbo].[ambito] OFF
 
 

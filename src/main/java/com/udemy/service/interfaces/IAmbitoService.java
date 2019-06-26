@@ -1,5 +1,7 @@
 package com.udemy.service.interfaces;
 
+import java.util.List;
+
 import com.udemy.entity.Ambito;
 import com.udemy.util.RestResponse;
 
@@ -11,6 +13,6 @@ public interface IAmbitoService {
 	RestResponse guardar(Ambito subambito);
 	public Iterable<Ambito> listarSubAmbitosActivosByAmbitoId(Long id);
 	RestResponse actualizar(Ambito subambito);
-
+	Iterable<Ambito> listarByIds(List<Long> ids); 
 
 }
