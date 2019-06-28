@@ -93,5 +93,10 @@ public class AmbitoService implements IAmbitoService {
 		return ambitoDao.findAllById(ids);
 	}
 
+	@Override
+	public Iterable<Ambito> listarAmbitoByRegionId(Long regionId) {
+		return ambitoDao.findAmbitosByRegionId(regionId);
+	}
+
 }
 

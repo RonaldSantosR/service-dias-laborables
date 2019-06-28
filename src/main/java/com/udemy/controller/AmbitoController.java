@@ -103,4 +103,9 @@ public class AmbitoController {
 		return new ResponseEntity<Iterable<Ambito>>(ambitoService.listarByIds(ids), HttpStatus.OK);
 	}
 	
+	@GetMapping("/{id}/region")
+	public ResponseEntity<Iterable<Ambito>> listarAmbitosByRegionId(@PathVariable Long id) {
+		return new ResponseEntity<Iterable<Ambito>>(ambitoService.listarAmbitoByRegionId(id), HttpStatus.OK);
+	}
+	
 }
