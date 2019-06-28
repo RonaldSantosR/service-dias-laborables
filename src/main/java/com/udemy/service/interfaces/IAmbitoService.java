@@ -14,5 +14,5 @@ public interface IAmbitoService {
 	public Iterable<Ambito> listarSubAmbitosActivosByAmbitoId(Long id);
 	RestResponse actualizar(Ambito subambito);
 	Iterable<Ambito> listarByIds(List<Long> ids); 
-
+	Iterable<Ambito> listarAmbitoByRegionId(Long regionId);
 }

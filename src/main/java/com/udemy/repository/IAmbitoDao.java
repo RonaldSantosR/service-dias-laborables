@@ -16,4 +16,7 @@ public interface IAmbitoDao extends CrudRepository<Ambito, Long>{
 	@Query("FROM Ambito sa WHERE sa.nombre=?1")	
 	public Ambito findByNombre(String nombre);
 	
+	
+	@Query("FROM Ambito a WHERE a.region.id=?1")	
+	public Iterable<Ambito> findAmbitosByRegionId(Long regionId);
 }
