@@ -1,5 +1,7 @@
 package com.udemy.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -19,4 +21,6 @@ public interface IAmbitoDao extends CrudRepository<Ambito, Long>{
 	
 	@Query("FROM Ambito a WHERE a.region.id=?1")	
 	public Iterable<Ambito> findAmbitosByRegionId(Long regionId);
+	
+	public Iterable<Ambito> findAllByNombreIn(List<String> nombre);
 }

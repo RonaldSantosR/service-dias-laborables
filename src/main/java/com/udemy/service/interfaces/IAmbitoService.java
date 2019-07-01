@@ -15,4 +15,5 @@ public interface IAmbitoService {
 	RestResponse actualizar(Ambito subambito);
 	Iterable<Ambito> listarByIds(List<Long> ids); 
 	Iterable<Ambito> listarAmbitoByRegionId(Long regionId);
+	List<Long> listarAmbitosIdByNombre(List<String> nombre);
 }

@@ -108,4 +108,9 @@ public class AmbitoController {
 		return new ResponseEntity<Iterable<Ambito>>(ambitoService.listarAmbitoByRegionId(id), HttpStatus.OK);
 	}
 	
+	@GetMapping(params="nombres")
+	public ResponseEntity<List<Long>> listarAmbitoPorNombres(@RequestParam List<String> nombres) {
+		return new ResponseEntity<List<Long>>(ambitoService.listarAmbitosIdByNombre(nombres), HttpStatus.OK);
+	}
+	
 }
