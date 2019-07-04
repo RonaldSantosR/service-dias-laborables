@@ -23,4 +23,5 @@ public interface IRegionService {
 	List<modelRegion> ListarModalAmbitos();
 	Date listarFechaLimite(String fechaInicial,Long ambitoId, double dias) throws ParseException;
 	boolean validarDiaLaborable(Date fecha, Long ambitoId) throws ParseException;
+	Region findRegionByAmbito(Long ambitoId) throws ParseException;
 }
