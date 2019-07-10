@@ -23,4 +23,7 @@ public interface DiahoraRepository extends CrudRepository<DiaHora, Long> {
 	@Query("SELECT fin FROM DiaHora d WHERE d.dia.id=?1 AND d.region.id=?2")
 	Date horasalida(Long diaId, Long ambitoId);	
 
+	
+	@Query("SELECT inicio FROM DiaHora d WHERE d.dia.id=?1 AND d.region.id=?2")
+	Date horaentrada(Long diaId, Long ambitoId);	
 }

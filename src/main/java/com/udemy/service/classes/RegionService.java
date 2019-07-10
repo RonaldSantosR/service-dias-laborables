@@ -341,7 +341,7 @@ public class RegionService implements IRegionService {
 	public Date listarFechaLimite(String fechaInicial, Long ambitoId, double horas) throws ParseException {
 //		SimpleDateFormat  dt = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
 		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");	
- 		dt.setTimeZone(TimeZone.getTimeZone("America/Peru"));
+ 		//dt.setTimeZone(TimeZone.getTimeZone("America/Peru"));
 
 		Date dateI= new Date();
 		try {
@@ -349,17 +349,20 @@ public class RegionService implements IRegionService {
 		} catch (Exception e) {
 			return null;
 		}
-			
+		
 		int i=0; //dias laborables
 		int j=0; //dias calendarios
 		//String valor = String.valueOf(horas);
   		if(horas<24) {
+  			String primercorte = "13:00:00";
+  			String segundocorte="18:00:00";	
 			String diaSemana = null;
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(dateI);
-			calendar.add(Calendar.HOUR_OF_DAY, (int) horas);
 			//Date utilDates= calendar.getTime();
 			diaSemana = String.valueOf(calendar.get(Calendar.DAY_OF_WEEK));
+			calendar.add(Calendar.HOUR_OF_DAY, (int) horas);			
+			
 			int dia = 0;
 			if(Integer.parseInt(diaSemana)==1) {
 				dia=7;
@@ -368,29 +371,40 @@ public class RegionService implements IRegionService {
 			}
 			Date utilDate = calendar.getTime();
 			SimpleDateFormat dthora = new SimpleDateFormat("HH:mm:ss");	
+			SimpleDateFormat dtdia = new SimpleDateFormat("yyyy-MM-dd ");	
+
 			Date horadate=  diahorarepository.horasalida(Long.valueOf(dia) ,  ambitoId);
 			if(dthora.parse(dthora.format(horadate)).compareTo(dthora.parse(dthora.format(utilDate)))>=0 ) {
 				return utilDate;
 			}else {	
-				Date fec = calendar.getTime();
+				Calendar calendar2 = Calendar.getInstance();
+				calendar2.setTime(dateI);
 				boolean condicion=true;
 				i++;
 				while(condicion) {
-					calendar.add(calendar.DAY_OF_YEAR, i);
-					if(validarDiaLaborable(fec,ambitoId)){
+					calendar2.add(calendar2.DAY_OF_YEAR, i);
+					if(validarDiaLaborable(calendar2.getTime(),ambitoId)){
 						condicion=false;
 					}						
-					i++;
+					i++;											
 				}
-				/*
-				diaSemana = String.valueOf(calendar.get(Calendar.DAY_OF_WEEK));
+				diaSemana = String.valueOf(calendar2.get(Calendar.DAY_OF_WEEK));
 				if(Integer.parseInt(diaSemana)==1) {
 					dia=7;
 				}else {
 					dia= Integer.parseInt(diaSemana) - 1;
-				}*/
-				
-				return calendar.getTime();			
+				}				
+				Date horaentrada=  diahorarepository.horaentrada(Long.valueOf(dia),ambitoId);
+				Date fechalimite = new Date();
+				Date fechalimiteparcial = calendar2.getTime();
+				if(dthora.parse(dthora.format(horaentrada)).compareTo(dthora.parse(primercorte))<=0 ) {
+					String fechastring = dtdia.format(fechalimiteparcial)+" "+primercorte;
+					fechalimite = dt.parse(fechastring);
+				}else {
+					String fechastring = dtdia.format(fechalimiteparcial)+" "+segundocorte;
+					fechalimite = dt.parse(fechastring);
+				}	
+				return fechalimite;			
 			}
 		}
 		
