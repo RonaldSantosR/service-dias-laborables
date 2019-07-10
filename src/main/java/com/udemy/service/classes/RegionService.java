@@ -470,6 +470,11 @@ public class RegionService implements IRegionService {
 		}
 		return rpta;
 	}
+
+	@Override
+	public Region findRegionByAmbito(Long ambitoId) throws ParseException {
+		return regionrepository.findRegionByAmbitoId(ambitoId);
+	}
 	
 	
 }

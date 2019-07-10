@@ -310,4 +310,9 @@ public class RegionController {
 		return new ResponseEntity<Map<String, Object>>(respuesta, HttpStatus.OK);
 	}
 	
+	@GetMapping("/ambito/{id}")
+	public ResponseEntity<Region> listarRegionPorSubambito(@PathVariable Long id) throws ParseException{
+		return new ResponseEntity<Region>(regionservice.findRegionByAmbito(id), HttpStatus.OK);
+	}
+	
 }
