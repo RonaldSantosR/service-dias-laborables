@@ -338,45 +338,212 @@ public class RegionService implements IRegionService {
 	}
 
 	@Override
-	public Date listarFechaLimite(String fechaInicial, Long ambitoId, double horas) throws ParseException {
-//		SimpleDateFormat  dt = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
+	public Date listarFechaLimite(String fechaInicial, Long ambitoId, double horas, int tipo) throws ParseException {
+		//		SimpleDateFormat  dt = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
 		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");	
  		//dt.setTimeZone(TimeZone.getTimeZone("America/Peru"));
-
+		String primercorte = "09:00:00";
+		String finprimercorte = "13:00:00";
+		String finsegundocorte="18:00:00";	
+		SimpleDateFormat dthora = new SimpleDateFormat("HH:mm:ss");	
+		SimpleDateFormat dtdia = new SimpleDateFormat("yyyy-MM-dd");
+		Date fechapartida= new Date();		
 		Date dateI= new Date();
+		Date dateII= new Date();
+		Date datehora= new Date();
+		Date otrodate= new Date();
+		Date pruebadate= new Date();
+
 		try {
 			dateI = dt.parse(fechaInicial);
 		} catch (Exception e) {
 			return null;
 		}
 		
+		try {
+			dateII = dt.parse(fechaInicial);
+		} catch (Exception e) {
+			return null;
+		}		
+		
+		datehora =  dthora.parse(dthora.format(datehora));
+
+		
+		if(tipo==3) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(dateI);
+			calendar.add(Calendar.HOUR_OF_DAY, (int) horas);	
+			Date utilDate = calendar.getTime();
+			return utilDate;
+		}	
+		
+		Logger.info( "asdassadad");
+
+		///////////////////////////////////////////////
+		
+		Calendar calendarx = Calendar.getInstance();
+		pruebadate=dt.parse( dtdia.format(dateI)+" "+primercorte);
+		Logger.info( dt.format(pruebadate));
+		calendarx.setTime(pruebadate);
+		calendarx.add(Calendar.HOUR_OF_DAY,1);		
+		String noprimercorte = dthora.format(calendarx.getTime());
+		
+		/*if((dthora.parse(primercorte).compareTo(dthora.parse(dthora.format(dateI))) <= 0) && (dthora.parse(noprimercorte).compareTo(dthora.parse(dthora.format(dateI))) >= 0)) {
+			fechapartida = dthora.parse(primercorte);
+			dateI=dt.parse( dtdia.format(dateI)+" "+dthora.format(fechapartida));
+		}*/
+		
+		
+		if((dthora.parse(noprimercorte).compareTo(dthora.parse(dthora.format(dateI))) < 0) && (dthora.parse(finprimercorte).compareTo(dthora.parse(dthora.format(dateI))) > 0)) {
+			fechapartida = dthora.parse(finprimercorte);
+			dateI=dt.parse( dtdia.format(dateI)+" "+dthora.format(fechapartida));
+		}
+		
+		Calendar calendary = Calendar.getInstance();
+		pruebadate=dt.parse( dtdia.format(dateI)+" "+finprimercorte);
+		calendary.setTime(pruebadate);
+		calendary.add(Calendar.HOUR_OF_DAY,1);		
+		String nofinprimercorte = dthora.format(calendary.getTime());
+		
+		/*if((dthora.parse(finprimercorte).compareTo(dthora.parse(dthora.format(dateI))) <= 0) && (dthora.parse(nofinprimercorte).compareTo(dthora.parse(dthora.format(dateI))) >= 0)) {
+			fechapartida = dthora.parse(finprimercorte);
+			dateI=dt.parse( dtdia.format(dateI)+" "+dthora.format(fechapartida));
+		}*/		
+		
+		if( dthora.parse(nofinprimercorte).compareTo(dthora.parse(dthora.format(dateI))) < 0) {
+			fechapartida = dthora.parse(primercorte);
+			dateI=dt.parse( dtdia.format(dateI)+" "+dthora.format(fechapartida));	
+			Calendar calendar2 = Calendar.getInstance();
+			calendar2.setTime(dateI);
+			boolean condicion=true;
+			int i=0;
+			i++;
+			while(condicion) {
+				calendar2.add(calendar2.DATE, i);
+				if(validarDiaLaborable(calendar2.getTime(),ambitoId)){
+					condicion=false;
+				}						
+				i++;											
+			}
+			dateI= calendar2.getTime();
+			otrodate=calendar2.getTime();
+		
+		}		
+		
+		////////////////////////////////////////////////
+		
 		int i=0; //dias laborables
 		int j=0; //dias calendarios
 		//String valor = String.valueOf(horas);
-  		if(horas<24) {
-  			String primercorte = "13:00:00";
-  			String segundocorte="18:00:00";	
+  		
+		if(horas<24) {
+			
 			String diaSemana = null;
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(dateI);
 			//Date utilDates= calendar.getTime();
 			diaSemana = String.valueOf(calendar.get(Calendar.DAY_OF_WEEK));
+			
 			calendar.add(Calendar.HOUR_OF_DAY, (int) horas);			
 			
 			int dia = 0;
+
 			if(Integer.parseInt(diaSemana)==1) {
 				dia=7;
 			}else {
 				dia= Integer.parseInt(diaSemana) - 1;
 			}
+			
 			Date utilDate = calendar.getTime();
-			SimpleDateFormat dthora = new SimpleDateFormat("HH:mm:ss");	
-			SimpleDateFormat dtdia = new SimpleDateFormat("yyyy-MM-dd ");	
+			//Date horadate =  diahorarepository.horasalida(Long.valueOf(dia) ,  ambitoId);
+			
+			if((dthora.parse(primercorte).compareTo(dthora.parse(dthora.format(dateI))) <= 0) && (dthora.parse(noprimercorte).compareTo(dthora.parse(dthora.format(dateI))) >= 0)) {
 
-			Date horadate=  diahorarepository.horasalida(Long.valueOf(dia) ,  ambitoId);
-			if(dthora.parse(dthora.format(horadate)).compareTo(dthora.parse(dthora.format(utilDate)))>=0 ) {
 				return utilDate;
+				
+			}
+			if((dthora.parse(primercorte).compareTo(dthora.parse(dthora.format(utilDate))) < 0) && (dthora.parse(finprimercorte).compareTo(dthora.parse(dthora.format(utilDate))) >= 0)) {
+				//Calendar calendar = Calendar.getInstance();
+				//calendar.add(Calendar.HOUR_OF_DAY, (int) horas);			
+				
+
+				utilDate = dt.parse(dtdia.format(utilDate)+" "+finprimercorte);
+				return utilDate;
+			}
+			
+			
+			if( (dthora.parse(finprimercorte).compareTo( dthora.parse(dthora.format(utilDate))) < 0 && (dthora.parse(finsegundocorte).compareTo(dthora.parse(dthora.format(utilDate))) >= 0))){
+				
+				
+				if((dthora.parse(finprimercorte).compareTo(dthora.parse(dthora.format(dateI))) <= 0) && (dthora.parse(nofinprimercorte).compareTo(dthora.parse(dthora.format(dateI))) >= 0)) {
+					return utilDate;
+				}
+				
+				Calendar calendar2 = Calendar.getInstance();
+				calendar2.setTime(dateI);
+				boolean condicion=true;
+				i++;
+				while(condicion) {
+					calendar2.add(calendar2.DATE, i);
+					if(validarDiaLaborable(calendar2.getTime(),ambitoId)){
+						condicion=false;
+					}						
+					i++;											
+				}
+				utilDate = dt.parse(dtdia.format(utilDate)+" "+finsegundocorte);					
+				return utilDate;
+
+			}		
+			
+			
+			if( dthora.parse(finsegundocorte).compareTo(dthora.parse(dthora.format(utilDate))) < 0 ) {
+				
+				Calendar calendar2 = Calendar.getInstance();
+				calendar2.setTime(dateI);
+				boolean condicion=true;
+				i++;
+				while(condicion) {
+					calendar2.add(calendar2.DATE, i);
+					if(validarDiaLaborable(calendar2.getTime(),ambitoId)){
+						condicion=false;
+					}						
+					i++;											
+				}
+				
+				utilDate = dt.parse(dtdia.format(calendar2.getTime())+" "+finprimercorte);					
+				return utilDate;
+				/*
+				diaSemana = String.valueOf(calendar2.get(Calendar.DAY_OF_WEEK));
+				
+				if(Integer.parseInt(diaSemana)==1) {
+					dia=7;
+				}else {
+					dia= Integer.parseInt(diaSemana) - 1;
+				}				
+				Date horaentrada=  diahorarepository.horaentrada(Long.valueOf(dia),ambitoId);
+				
+				Date fechalimite = new Date();
+				Date fechalimiteparcial = calendar2.getTime();
+				if(dthora.parse(dthora.format(horaentrada)).compareTo(dthora.parse(finprimercorte))<=0 ) {
+					String fechastring = dtdia.format(fechalimiteparcial)+" "+finprimercorte;
+					fechalimite = dt.parse(fechastring);
+				}else {
+					String fechastring = dtdia.format(fechalimiteparcial)+" "+finsegundocorte;
+					fechalimite = dt.parse(fechastring);
+				}	
+				
+				*/
+			}				
+			
+
+			/*
+			if (dthora.parse(finsegundocorte).compareTo(dthora.parse(dthora.format(utilDate))) > 0  ) {				
+				
+				return dthora.parse(finsegundocorte);
 			}else {	
+				
+				
+				
 				Calendar calendar2 = Calendar.getInstance();
 				calendar2.setTime(dateI);
 				boolean condicion=true;
@@ -397,23 +564,25 @@ public class RegionService implements IRegionService {
 				Date horaentrada=  diahorarepository.horaentrada(Long.valueOf(dia),ambitoId);
 				Date fechalimite = new Date();
 				Date fechalimiteparcial = calendar2.getTime();
-				if(dthora.parse(dthora.format(horaentrada)).compareTo(dthora.parse(primercorte))<=0 ) {
-					String fechastring = dtdia.format(fechalimiteparcial)+" "+primercorte;
+				if(dthora.parse(dthora.format(horaentrada)).compareTo(dthora.parse(finprimercorte))<=0 ) {
+					String fechastring = dtdia.format(fechalimiteparcial)+" "+finprimercorte;
 					fechalimite = dt.parse(fechastring);
 				}else {
-					String fechastring = dtdia.format(fechalimiteparcial)+" "+segundocorte;
+					String fechastring = dtdia.format(fechalimiteparcial)+" "+finsegundocorte;
 					fechalimite = dt.parse(fechastring);
 				}	
 				return fechalimite;			
-			}
+			}*/
 		}
 		
 		Calendar calendarCalc = Calendar.getInstance();
+		
 		double diasCont= horas/24;
+		
 		while(i<diasCont) {
 			j++;
 			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(dateI);
+			calendar.setTime(dateII);
 			calendar.add(Calendar.DATE, j);
 			Date fec = calendar.getTime();
 			if(validarDiaLaborable(fec,ambitoId)){
@@ -421,8 +590,17 @@ public class RegionService implements IRegionService {
 			}
 			calendarCalc.setTime(calendar.getTime());
 		}
-		return calendarCalc.getTime();
+		Date finaldia = new Date();
+		finaldia=calendarCalc.getTime();
+		if((dthora.parse(primercorte).compareTo( dthora.parse(dthora.format(dateII))) <= 0) && (dthora.parse(finprimercorte).compareTo(dthora.parse( dthora.format(dateII)) ) > 0)) {
+			//return dthora.parse(finprimercorte);
+			finaldia=dt.parse(dtdia.format(finaldia)+" "+finprimercorte);
+		}
 		
+		if( (dthora.parse(finprimercorte).compareTo( dthora.parse(dthora.format(dateII))) <= 0) && (dthora.parse(finsegundocorte).compareTo(dthora.parse( dthora.format(dateII)) ) > 0)  ) {
+			finaldia=dt.parse(dtdia.format(finaldia)+" "+finsegundocorte);
+		}
+		return finaldia;
 	}
 
 	@Override

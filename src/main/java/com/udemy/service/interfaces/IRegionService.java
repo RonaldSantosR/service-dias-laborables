@@ -21,7 +21,7 @@ public interface IRegionService {
 	Iterable<Region> ListarAmbitos() throws JsonProcessingException;
 	Iterable<DiaHora> listarhoras(Long id);
 	List<modelRegion> ListarModalAmbitos();
-	Date listarFechaLimite(String fechaInicial,Long ambitoId, double dias) throws ParseException;
+	Date listarFechaLimite(String fechaInicial,Long ambitoId, double dias , int tipo) throws ParseException;
 	boolean validarDiaLaborable(Date fecha, Long ambitoId) throws ParseException;
 	Region findRegionByAmbito(Long ambitoId) throws ParseException;
 }
