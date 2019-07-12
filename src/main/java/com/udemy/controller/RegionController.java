@@ -1,4 +1,4 @@
-package com.udemy.controller;
+	package com.udemy.controller;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -303,12 +303,15 @@ public class RegionController {
 	}
 	
 	@GetMapping("/{id}/fechalimite")
-	public ResponseEntity<Map<String, Object>> listarFechaLimite(@RequestParam(value = "fecha") String fecha, @PathVariable Long id, @RequestParam(value = "hora") double hora) throws ParseException{
-		Date fechalimite = 	regionservice.listarFechaLimite(fecha, id, hora);
+	public ResponseEntity<Map<String, Object>> listarFechaLimite(@RequestParam(value = "fecha") String fecha, @PathVariable Long id, @RequestParam(value = "hora") double hora, @RequestParam(value="tipo") int tipo ) throws ParseException{
+		Date fechalimite = 	regionservice.listarFechaLimite(fecha, id, hora , tipo);
+		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");	
 		Map<String, Object> respuesta = new HashMap<String, Object>();
-		respuesta.put("fechaLimite", fechalimite);
+		respuesta.put("fechaLimite", dt.format(fechalimite));
 		return new ResponseEntity<Map<String, Object>>(respuesta, HttpStatus.OK);
 	}
+	
+	
 	
 	@GetMapping("/ambito/{id}")
 	public ResponseEntity<Region> listarRegionPorSubambito(@PathVariable Long id) throws ParseException{
