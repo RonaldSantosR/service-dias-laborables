@@ -7,13 +7,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.udemy.entity.Region;
@@ -24,7 +20,7 @@ import com.udemy.repository.RegionRepository;
 import com.udemy.repository.DiaRepository;
 import com.udemy.repository.FeriadoRepository;
 import com.udemy.service.interfaces.IDiaService;
-import com.udemy.util.RestResponse;
+
 
 @Service
 public class DiaService implements IDiaService {

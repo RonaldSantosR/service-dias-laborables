@@ -1,12 +1,9 @@
 package com.udemy.service.interfaces;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
 
-import com.udemy.entity.Region;
-import com.udemy.entity.Feriado;
 import com.udemy.model.modelFeriado;
 import com.udemy.util.RestResponse;
 

@@ -1,41 +1,30 @@
 package com.udemy.service.classes;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
-import java.util.stream.Collectors;
+
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.udemy.controller.RegionController;
 import com.udemy.entity.Region;
 import com.udemy.entity.Feriado;
 import com.udemy.entity.TipoPeriodo;
 import com.udemy.model.modelRegion;
 import com.udemy.model.modelFeriado;
-import com.udemy.model.modelFeriadolistar;
 import com.udemy.model.modeltipoPeriodo;
 import com.udemy.repository.RegionRepository;
 import com.udemy.repository.FeriadoRepository;

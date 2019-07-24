@@ -1,10 +1,6 @@
 package com.udemy.model;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.udemy.entity.Region;
-import com.udemy.entity.Dia;
 
 public class modelDiaHora {
 	

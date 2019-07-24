@@ -2,8 +2,6 @@ package com.udemy.model;
 
 import java.util.Set;
 
-import com.udemy.entity.DiaHora;
-import com.udemy.entity.Feriado;
 
 public class modelRegion {
 	

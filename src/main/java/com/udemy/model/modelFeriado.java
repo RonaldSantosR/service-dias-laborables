@@ -1,11 +1,8 @@
 package com.udemy.model;
 
-import java.util.Date;
 import java.util.Set;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.udemy.entity.Region;
-import com.udemy.entity.TipoPeriodo;
+
 
 public class modelFeriado {
 	
