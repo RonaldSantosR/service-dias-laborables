@@ -1,11 +1,7 @@
 package com.udemy.service.interfaces;
 
 import java.text.ParseException;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-
-import com.udemy.entity.Feriado;
 import com.udemy.model.modelFeriado;
 
 public interface IFeriadoSer {

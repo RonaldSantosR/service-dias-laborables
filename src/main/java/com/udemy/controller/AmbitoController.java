@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.udemy.entity.Ambito;
-import com.udemy.entity.TipoPeriodo;
 import com.udemy.service.interfaces.IAmbitoService;
 import com.udemy.util.RestResponse;
 

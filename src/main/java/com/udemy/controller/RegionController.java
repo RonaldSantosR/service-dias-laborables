@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,7 +28,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.udemy.entity.Region;
 import com.udemy.entity.Dia;
 import com.udemy.entity.DiaHora;
-import com.udemy.entity.Feriado;
 import com.udemy.entity.Ambito;
 import com.udemy.model.modelRegion;
 import com.udemy.model.modelFeriado;
